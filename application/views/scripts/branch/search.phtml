@@ -1,0 +1,13 @@
+<br /><br />
+
+<?php foreach ($this->branches as $branch): ?>
+    <div>
+        <label> NAME : <?= $branch->name; ?> </label>
+        <label> ID : <?= $branch->id; ?> </label>
+        <label> LibID : <?= $branch->library_id; ?> </label>
+        <a href="/library/update/?id=<?= $branch->id; ?>">update</a>
+        <a href="/library/delete/?id=<?= $branch->id; ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<a href="/library/" > library </a>
+<a href="/branch/" > branch </a>

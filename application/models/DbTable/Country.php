@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * Country
+ * 
+ * @author Aleks S Tushin
+ * @version 
+ */
+
+class Application_Model_DbTable_Country extends Application_Model_ApplicationTable {
+	/**
+	 * The default table name 
+	 */
+	protected $_name = 'country';
+	
+	protected $_dependentTables = array('Application_Model_DbTable_City');
+	
+	
+
+	public function checkDelete($id) {
+		// todo write logic then add other relation table 
+		return false;
+	}
+	
+	public function getByCondition($search) {
+		$select = $this->select ();
+		foreach ( $search as $column => $value ) {
+			if (strpos ( $value, '*' ) !== false) {
+				$select->where($column . ' like(?)', str_replace('*', '%', $value));
+			} else {
+				$select->where($column . ' = ?', $value);
+			}
+		}
+		
+		return $this->fetchAll($select);
+	}
+	
+	public function getCities($country)
+    {
+    	return $country->findDependentRowset('Application_Model_DbTable_City');
+    }
+}

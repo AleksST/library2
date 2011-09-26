@@ -1,0 +1,42 @@
+<br /><br />
+<div id="view-content">
+	<p>View script for controller <b>Library</b> and script/action name <b>index</b></p>
+</div>
+<?php foreach ($this->branches as $branch): ?>
+    <div>
+     	<?php if ($this->libraries[$branch->library_id]):?>
+        	<label> LibName: <?= $this->libraries[$branch->library_id]->name; ?> </label>
+        <?php endif;?>
+        <label> NAME : <?= $branch->name; ?> </label>
+        <label> ID : <?= $branch->id; ?> </label>
+        <label> Librari_ID : <?= $branch->library_id; ?> </label>
+        <a href="/branch/update/?id=<?= $branch->id ?>">update</a>
+        <a href="/branch/delete/?id=<?= $branch->id ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<?php 
+$decorator = new Application_Form_Input();
+$elName  = new Zend_Form_Element('name', array(
+    'label'      => 'Name',
+    'value'      => '',
+    'decorators' => array($decorator),
+));
+$elLibId   = new Zend_Form_Element('library_id', array(
+    'label'      => 'library',
+    'value'      => ($this->library->id) ? : '',
+    'decorators' => array($decorator),
+));
+$elLibName   = new Zend_Form_Element('library_id', array(
+    'label'      => 'library',
+    'value'      => ($this->library->name) ? : '',
+    'decorators' => array($decorator),
+));
+?>
+<form method="post" url="/branch/add">
+    <?= $elName; ?>
+    <?= $elLibId; ?>
+    <?= $elLibName; ?>
+    <input type="submit" value="Добавить"/>
+    <button formaction="/branch/search">Поиск</button>
+</form>
+

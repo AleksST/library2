@@ -1,0 +1,26 @@
+<?php 
+
+$decorator = new Application_Form_Input();
+$nameEl   = new Zend_Form_Element('name', array(
+    'label'      => 'name',
+    'value'      => $this->branch->name,
+    'decorators' => array($decorator),
+));
+
+$idEl = new Zend_Form_Element_Hidden('id', array(
+    'value' => $this->branch->id ? : '',
+    'decorators' => array($decorator),
+));
+$libIdEl = new Zend_Form_Element_Hidden('library_id', array(
+    'value' => $this->branch->library_id ? : '',
+    'decorators' => array($decorator),
+));
+
+?>
+<form method="post">
+<?= $nameEl;?> <?= $idEl; ?> <?= $libIdEl; ?>
+<input type="submit" value="изменить" />
+</form>
+<a href="/library/" > library </a>
+<a href="/branch/" > branch </a>
+
