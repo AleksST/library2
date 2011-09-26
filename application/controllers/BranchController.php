@@ -21,7 +21,7 @@ class BranchController extends Zend_Controller_Action
         $this->view->branches = $this->_branch->getAll();
         
         foreach ($this->view->branches as $branch){
-        	$libraries[$branch->id] = $this->_branch->getLibrary($branch);
+            $libraries[$branch->id] = $this->_branch->getLibrary($branch);
         }
         $this->view->libraries = $libraries;
         
@@ -39,7 +39,6 @@ class BranchController extends Zend_Controller_Action
             $updated = $this->_getDiffColumns($row->toArray());
             $this->_branch->edit($id, $updated);
         }
-        
         $this->view->branch = $this->_branch->getRow($id);
     }
 
@@ -56,13 +55,9 @@ class BranchController extends Zend_Controller_Action
     public function searchAction()
     {
         if($this->getRequest()->isPost()){
-            //$this->_columns[] = 'created';
-            //$this->_columns[] = 'modified';
             $search = $this->_getColumnsFromRequest();
-            $this->view->branches = $this->_branch->getByCondition($search);
-                      
+            $this->view->branches = $this->_branch->getByCondition($search);         
         }
-        
     }
 
     public function addAction()
@@ -82,8 +77,7 @@ class BranchController extends Zend_Controller_Action
     
     protected function _getColumnsFromRequest()
     {
-        return array_intersect_key($this->_getAllParams(), array_flip($this->_columns));
+        return array_diff(array_intersect_key($this->_getAllParams(), array_flip($this->_columns)), array('', null));
     }
-
 
 }

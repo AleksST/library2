@@ -19,6 +19,8 @@ class LibraryController extends Zend_Controller_Action
              $inserted = $this->_getColumnsFromRequest();
              $id = $this->_library->insert($inserted);
         }
+        
+        $this->view->form->removeElement('deleteBtn');
         $this->view->libraries = $this->_library->getAll();
     }
 
@@ -30,18 +32,17 @@ class LibraryController extends Zend_Controller_Action
             $updated = $this->_getDiffColumns($row->toArray());
             $this->_library->edit($id, $updated);
         }
-        
         $this->view->library = $this->_library->getRow($id);
     }
 
     public function deleteAction()
     {
-       //if($this->getRequest()->isPost()){
+       if($this->getRequest()->isPost()){
            $id = $this->getRequest()->getParam('id');
            if($this->_library->checkDelete($id)){
-               $this->del($id);
+               $this->_library->del($id);
            }
-       //}
+       }
        $this->_redirect('/library/');
     }
 

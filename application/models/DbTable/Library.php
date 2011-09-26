@@ -9,13 +9,7 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
 
     protected $_name = 'library';
 
-//    protected $_referenceMap  = array();
-//    protected $_dependentTables = array(
-//      'ItemTable'=> array(
-//            'columns'       =>  'item_id',
-//            'reftableClass' =>  'ItemTable',
-//            'refColumns'    =>  'id',
-//        ));
+    protected $_dependentTables = array('Application_Model_DbTable_Branch');
 
 
 
@@ -29,13 +23,14 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
     }
 
     public function checkDelete($id) {
-        // todo write logic then add other relation table 
-        return false;
+        $library = $this->find($id)->current();
+        $branches = $library->findDependentRowset('Application_Model_DbTable_Branch');
+        return (0 == count($branches));
     }
     
     public function del($id)
     {
-        $where = $this->select()->where('id= ?',$id);
+        $where = $this->getAdapter()->quoteInto('id = ?',$id);
         return $this->delete($where);
     }
     
