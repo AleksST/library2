@@ -1,0 +1,27 @@
+<br /><br />
+<div id="view-content">
+	<p>View script for controller <b>Library</b> and script/action name <b>index</b></p>
+</div>
+<?php foreach ($this->libraries as $library): ?>
+    <div>
+        <label> NAME : <?= $library->name; ?> </label>
+        <label> ID : <?= $library->id; ?> </label>
+        <a href="/library/update/?id=<?= $library->id; ?>">update</a>
+        <a href="/library/delete/?id=<?= $library->id; ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<?php 
+
+$decorator = new Application_Form_Input();
+$element   = new Zend_Form_Element('name', array(
+    'label'      => 'Name',
+    'value'      => '',
+    'decorators' => array($decorator),
+));
+?>
+<form method="post" url="/library/add">
+    <?= $element; ?>
+    <input type="submit" value="добавить"/>
+    <button formaction="/library/search">Поиск</button>
+</form>
+

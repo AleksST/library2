@@ -1,0 +1,11 @@
+<br /><br />
+
+<?php foreach ($this->libraries as $library): ?>
+    <div>
+        <label> NAME : <?= $library->name; ?> </label>
+        <label> ID : <?= $library->id; ?> </label>
+        <a href="/library/update/?id=<?= $library->id; ?>">update</a>
+        <a href="/library/delete/?id=<?= $library->id; ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<a href="/library/" > library </a>
