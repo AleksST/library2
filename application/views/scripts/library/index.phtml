@@ -1,7 +1,3 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Library</b> and script/action name <b>index</b></p>
-</div>
 <?php foreach ($this->libraries as $library): ?>
     <div>
         <label> NAME : <?= $library->name; ?> </label>
@@ -11,17 +7,5 @@
     </div>
 <?php endforeach; ?>
 <?php 
-
-$decorator = new Application_Form_Input();
-$element   = new Zend_Form_Element('name', array(
-    'label'      => 'Name',
-    'value'      => '',
-    'decorators' => array($decorator),
-));
+echo $this->form->render();
 ?>
-<form method="post" url="/library/add">
-    <?= $element; ?>
-    <input type="submit" value="добавить"/>
-    <button formaction="/library/search">Поиск</button>
-</form>
-

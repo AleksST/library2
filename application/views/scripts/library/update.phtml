@@ -1,21 +1,4 @@
 <?php 
-
-$decorator = new Application_Form_Input();
-$nameEl   = new Zend_Form_Element('name', array(
-    'label'      => 'name',
-    'value'      => $this->library->name,
-    'decorators' => array($decorator),
-));
-
-$idEl = new Zend_Form_Element_Hidden('id', array(
-    'value' => $this->library->id,
-    'decorators' => array($decorator),
-));
-
+$this->form->setDefaults($this->library->toArray());
+echo $this->form->render();
 ?>
-<form method="post">
-<?= $nameEl;?> <?= $idEl; ?>
-<input type="submit" value="изменить" />
-</form>
-<a href="/library/" > library </a>
-

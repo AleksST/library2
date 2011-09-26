@@ -4,12 +4,13 @@ class LibraryController extends Zend_Controller_Action
 {
     protected $_library;
     
-    protected $_columns = array('name');
+    protected $_columns = array('name', 'short_name', 'address', 'note');
 
 
     public function init()
     {
         $this->_library = new Application_Model_DbTable_Library();
+        $this->view->form = new Application_Form_Library();
     }
 
     public function indexAction()
@@ -35,23 +36,22 @@ class LibraryController extends Zend_Controller_Action
 
     public function deleteAction()
     {
-       if($this->getRequest()->isPost()){
+       //if($this->getRequest()->isPost()){
            $id = $this->getRequest()->getParam('id');
-           if($this->checkDelete($id)){
+           if($this->_library->checkDelete($id)){
                $this->del($id);
            }
-       }
+       //}
+       $this->_redirect('/library/');
     }
 
     public function searchAction()
     {
-        //if($this->getRequest()->isPost()){
-            //$this->_columns[] = 'created';
-            //$this->_columns[] = 'modified';
-            $search = $this->_getColumnsFromRequest();
+        if($this->getRequest()->isPost()){
+            // only columns defined in $_columns and not empty
+            $search = array_diff($this->_getColumnsFromRequest(), array('',null));
             $this->view->libraries = $this->_library->getByCondition($search);
-                      
-        //}
+        }
         
     }
 
