@@ -1,18 +1,23 @@
 <?php
-
-class Application_Form_Library extends Zend_Form
+class Application_Form_Branch extends Zend_Form
 {
     public function __construct($options = null) {
         parent::__construct($options);
-        $this->setName('library');
+        
+        $this->setName('branch');
         $this->setMethod('post');
-        $this->setAction('/library/');
+        $this->setAction('/branch/');
         
         $id = new Zend_Form_Element_Hidden('id');
+        
         $name = $this->createElement('text', 'name');
         $name->setRequired()->setLabel('name')
         	 ->addErrorMessage('Обязательное поле');
-        
+       	
+		$db = Zend_Db_Table_Abstract::getDefaultAdapter();
+        $options = $db->fetchPairs($db->select()->from('library', array('id', 'name'))->order('name'), 'id');
+        $libraryId = $this->createElement('select', 'library_id');
+		$libraryId->AddMultiOptions($options);
         
         $address = $this->createElement('text', 'address');
         $address->setLabel('address');
@@ -20,23 +25,20 @@ class Application_Form_Library extends Zend_Form
         $short_name = $this->createElement('text', 'short_name');
         $short_name->setLabel('короткое имя');
         
-        $note = $this->createElement('text', 'note');
-        $note->setLabel('note');
-        
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/library/search');
+        $searchBtn->setAttrib('formaction', '/branch/search');
         
         $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/library/delete');
+        $deleteBtn->setAttrib('formaction', '/branch/delete');
         
         $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/library/update');
+        $editBtn->setAttrib('formaction', '/branch/update');
         
         $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/library/add');
+        $addBtn->setAttrib('formaction', '/branch/add');
         
         $this->addElements(
-            compact('id', 'name', 'address', 'short_name', 'note'
+            compact('id', 'name', 'libraryId', 'address', 'short_name', 'note'
                     ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
     }

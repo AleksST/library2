@@ -28,18 +28,6 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
         return (0 == count($branches));
     }
     
-    public function del($id)
-    {
-        $where = $this->getAdapter()->quoteInto('id = ?',$id);
-        return $this->delete($where);
-    }
-    
-    public function edit($id, $data)
-    {
-        $where = $this->getAdapter()->quoteInto('id = ?',$id);
-        return $this->update($data, $where);
-    }
-    
     public function getByCondition($search)
     {
         $select = $this->select();

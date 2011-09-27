@@ -12,6 +12,18 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
     {
         $this->_now = new Zend_Db_Expr('NOW()');
     }
+    
+	public function del($id)
+    {
+        $where = $this->getAdapter()->quoteInto('id = ?',$id);
+        return $this->delete($where);
+    }
+    
+    public function edit($id, $data)
+    {
+        $where = $this->getAdapter()->quoteInto('id = ?',$id);
+        return $this->update($data, $where);
+    }
 
     public function update($data, $where) 
     {

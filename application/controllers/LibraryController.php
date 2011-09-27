@@ -3,6 +3,7 @@
 class LibraryController extends Zend_Controller_Action
 {
     protected $_library;
+    protected $_form;
     
     protected $_columns = array('name', 'short_name', 'address', 'note');
 
@@ -10,29 +11,29 @@ class LibraryController extends Zend_Controller_Action
     public function init()
     {
         $this->_library = new Application_Model_DbTable_Library();
-        $this->view->form = new Application_Form_Library();
+        $this->_form = new Application_Form_Library();
     }
 
     public function indexAction()
     {
-         if($this->getRequest()->isPost()){
-             $inserted = $this->_getColumnsFromRequest();
-             $id = $this->_library->insert($inserted);
-        }
-        
-        $this->view->form->removeElement('deleteBtn');
         $this->view->libraries = $this->_library->getAll();
     }
 
     public function updateAction()
     {
         $id = $this->getRequest()->getParam('id');
-        if($this->getRequest()->isPost()){
-            $row = $this->_library->getRow($id);
-            $updated = $this->_getDiffColumns($row->toArray());
-            $this->_library->edit($id, $updated);
+        if($this->getRequest()->isPost()) {
+        	// if form submit
+	        if($this->_form->isValid($this->_request->getParams())) {
+	            $row = $this->_library->getRow($id);
+	            $updated = $this->_getDiffColumns($row->toArray());
+	            $this->_library->edit($id, $updated);
+	        } else { 
+	        	$this->view->errors = $this->_form->getErrors();
+	        }
         }
         $this->view->library = $this->_library->getRow($id);
+        $this->_forward('index');
     }
 
     public function deleteAction()
@@ -58,8 +59,18 @@ class LibraryController extends Zend_Controller_Action
 
     public function addAction()
     {
-       $this->_redirect('index');
+    	if($this->_form->isValid($this->_request->getParams())) {
+             $inserted = $this->_getColumnsFromRequest();
+             $id = $this->_library->insert($inserted);
+        }
+        $this->view->errors = $this->_form->getErrors();
+        $this->_forward('index');
     }
+    
+	public function postDispatch() 
+	{
+		 $this->view->form = $this->_form;
+	}
     
     protected function _getDiffColumns($row)
     {

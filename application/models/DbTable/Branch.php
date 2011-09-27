@@ -23,6 +23,15 @@ class Application_Model_DbTable_Branch extends Application_Model_ApplicationTabl
         return false;
     }
     
+ 	public function getAll() {
+        $select = $this->select();
+        return $this->fetchAll($select);
+    }
+    
+	public function getRow($id) {
+        return $this->find($id)->current();
+    }
+    
     public function getByCondition($search)
     {
         $select = $this->select();
