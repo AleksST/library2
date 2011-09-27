@@ -14,10 +14,14 @@ class Application_Form_Branch extends Zend_Form
         $name->setRequired()->setLabel('name')
         	 ->addErrorMessage('Обязательное поле');
        	
-		$db = Zend_Db_Table_Abstract::getDefaultAdapter();
+	$db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $options = $db->fetchPairs($db->select()->from('library', array('id', 'name'))->order('name'), 'id');
-        $libraryId = $this->createElement('select', 'library_id');
-		$libraryId->AddMultiOptions($options);
+        $library_id = $this->createElement('select', 'library_id');
+        $library_id->addMultiOption(0, 'Не выбрано');
+        $library_id->AddMultiOptions($options)
+                   ->setRequired()
+                   ->registerInArrayValidator();
+        $library_id->setValue(0);
         
         $address = $this->createElement('text', 'address');
         $address->setLabel('address');
@@ -38,7 +42,7 @@ class Application_Form_Branch extends Zend_Form
         $addBtn->setAttrib('formaction', '/branch/add');
         
         $this->addElements(
-            compact('id', 'name', 'libraryId', 'address', 'short_name', 'note'
+            compact('id', 'name', 'library_id', 'address', 'short_name', 'note'
                     ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
     }

@@ -6,20 +6,21 @@
     </div>
 <?php endforeach; ?>
 <?php 
-foreach ($this->errors as $name=>$error){
-	if(count($error)){
-		echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
-	}
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
 }
 
-
 if(!empty($this->library)) {
-	$this->form->setDefaults($this->library->toArray());
-	$this->form->removeElement('addBtn');
-	$this->form->removeElement('searchBtn');
+    $this->form->setDefaults($this->library->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
 } else {
-	$this->form->removeElement('deleteBtn');
-	$this->form->removeElement('editBtn');
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
 }
 echo $this->form->render();
 ?>

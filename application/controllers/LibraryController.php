@@ -1,12 +1,9 @@
 <?php
-
-class LibraryController extends Zend_Controller_Action
+require_once 'AppController.php';
+class LibraryController extends AppController
 {
     protected $_library;
-    protected $_form;
-    
     protected $_columns = array('name', 'short_name', 'address', 'note');
-
 
     public function init()
     {
@@ -23,14 +20,14 @@ class LibraryController extends Zend_Controller_Action
     {
         $id = $this->getRequest()->getParam('id');
         if($this->getRequest()->isPost()) {
-        	// if form submit
-	        if($this->_form->isValid($this->_request->getParams())) {
-	            $row = $this->_library->getRow($id);
-	            $updated = $this->_getDiffColumns($row->toArray());
-	            $this->_library->edit($id, $updated);
-	        } else { 
-	        	$this->view->errors = $this->_form->getErrors();
-	        }
+            // if form submit
+            if($this->_form->isValid($this->_request->getParams())) {
+                $row = $this->_library->getRow($id);
+                $updated = $this->_getDiffColumns($row->toArray());
+                $this->_library->edit($id, $updated);
+            } else { 
+                $this->view->errors = $this->_form->getErrors();
+            }
         }
         $this->view->library = $this->_library->getRow($id);
         $this->_forward('index');
@@ -51,10 +48,9 @@ class LibraryController extends Zend_Controller_Action
     {
         if($this->getRequest()->isPost()){
             // only columns defined in $_columns and not empty
-            $search = array_diff($this->_getColumnsFromRequest(), array('',null));
+            $search = $this->_getColumnsFromRequest();
             $this->view->libraries = $this->_library->getByCondition($search);
         }
-        
     }
 
     public function addAction()
@@ -66,27 +62,6 @@ class LibraryController extends Zend_Controller_Action
         $this->view->errors = $this->_form->getErrors();
         $this->_forward('index');
     }
-    
-	public function postDispatch() 
-	{
-		 $this->view->form = $this->_form;
-	}
-    
-    protected function _getDiffColumns($row)
-    {
-        if(! is_array($this->_columns)) {
-            return false;
-    	}
-      	// return array from request wich keys correspond $_columns
-        $diff = array_diff($this->_getAllParams(), $row);
-        return array_intersect_key($diff, array_flip($this->_columns));
-    }
-    
-    protected function _getColumnsFromRequest()
-    {
-        return array_intersect_key($this->_getAllParams(), array_flip($this->_columns));
-    }
-
 
 }
 

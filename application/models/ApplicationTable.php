@@ -13,7 +13,7 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
         $this->_now = new Zend_Db_Expr('NOW()');
     }
     
-	public function del($id)
+    public function del($id)
     {
         $where = $this->getAdapter()->quoteInto('id = ?',$id);
         return $this->delete($where);
@@ -36,7 +36,7 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
         if(!count($data)) {
             return false;
         }
-        $data['created'] = $this->_now;
+        $data['created']  = $this->_now;
         $data['modified'] = $this->_now;
         parent::insert($data);
     }

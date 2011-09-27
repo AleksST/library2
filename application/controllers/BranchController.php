@@ -1,6 +1,7 @@
 <?php
+require_once 'AppController.php';
 
-class BranchController extends Zend_Controller_Action
+class BranchController extends AppController
 {
     protected $_branch;
     
@@ -12,16 +13,12 @@ class BranchController extends Zend_Controller_Action
         $this->_branch = new Application_Model_DbTable_Branch();
         $this->_form = new Application_Form_Branch();
     }
-    
-    public function postDispatch()
-    {
-    	$this->view->form = $this->_form;
-    }
 
     public function indexAction()
     {
         $this->view->branches = $this->_branch->getAll();
         
+        $libraries = array();
         foreach ($this->view->branches as $branch){
             $libraries[$branch->id] = $this->_branch->getLibrary($branch);
         }
@@ -29,7 +26,7 @@ class BranchController extends Zend_Controller_Action
         
         // assignment here
         if($libraryId = $this->getRequest()->getParam('library_id')){
-        	$this->view->library = $this->_branch->getLibraryById($libraryId);        	
+            $this->view->library = $this->_branch->getLibraryById($libraryId);        	
         }
     }
 	
@@ -38,14 +35,14 @@ class BranchController extends Zend_Controller_Action
         $id = $this->getRequest()->getParam('id');
         // if enter edit form
         if($this->getRequest()->isPost()) {
-        	// if edit form submit
-	        if($this->_form->isValid($this->_request->getParams())) {
-	            $row = $this->_branch->getRow($id);
-	            $updated = $this->_getDiffColumns($row->toArray());
-	            $this->_branch->edit($id, $updated);
-	        } else {
-	        	$this->view->errors = $this->_form->getErrors();
-	        }
+            // if edit form submit
+            if($this->_form->isValid($this->_request->getParams())) {
+                $row = $this->_branch->getRow($id);
+                $updated = $this->_getDiffColumns($row->toArray());
+                $this->_branch->edit($id, $updated);
+            } else {
+                $this->view->errors = $this->_form->getErrors();
+            }
         }
         $this->view->branch = $this->_branch->getRow($id);
         $this->_forward('index');
@@ -59,6 +56,7 @@ class BranchController extends Zend_Controller_Action
                $this->del($id);
            }
        }
+       $this->_forward('index');
     }
 
     public function searchAction()
@@ -76,21 +74,6 @@ class BranchController extends Zend_Controller_Action
              $id = $this->_branch->insert($inserted);
         }
         $this->_forward('index');
-    }
-    
-    protected function _getDiffColumns($row)
-    {
-        if(! is_array($this->_columns)) {
-            return false;
-    	}
-      	// return array from request wich keys correspond $_columns
-        $diff = array_diff($this->_getAllParams(), $row);
-        return array_intersect_key($diff, array_flip($this->_columns));
-    }
-    
-    protected function _getColumnsFromRequest()
-    {
-        return array_diff(array_intersect_key($this->_getAllParams(), array_flip($this->_columns)), array('', null));
     }
 
 }

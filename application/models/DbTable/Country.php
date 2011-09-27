@@ -15,11 +15,19 @@ class Application_Model_DbTable_Country extends Application_Model_ApplicationTab
 
     protected $_dependentTables = array('Application_Model_DbTable_City');
 
+    public function getAll() {
+        $select = $this->select();
+        return $this->fetchAll($select);
+    }
 
+    public function getRow($id) {
+        return $this->find($id)->current();
+    }
 
     public function checkDelete($id) {
-            // todo write logic then add other relation table 
-            return false;
+        $library = $this->find($id)->current();
+        $branches = $library->findDependentRowset('Application_Model_DbTable_City');
+        return (0 == count($branches));
     }
 	
     public function getByCondition($search) {

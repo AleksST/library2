@@ -1,5 +1,5 @@
 <?php
-
+require_once 'AppController.php';
 /**
  * CountryController
  * 
@@ -7,7 +7,7 @@
  * @version 
  */
 
-class CountryController extends Zend_Controller_Action
+class CountryController extends AppController
 {
     protected $_country;
     
@@ -17,70 +17,58 @@ class CountryController extends Zend_Controller_Action
     public function init()
     {
         $this->_country = new Application_Model_DbTable_Country();
+        $this->_form = new Application_Form_Country();
     }
-
+    
     public function indexAction()
     {
-         if($this->getRequest()->isPost()){
-             $inserted = $this->_getColumnsFromRequest();
-             $id = $this->_country->insert($inserted);
-        }
-        $this->view->countries = $this->_country->getAll();
+       $this->view->countries = $this->_country->getAll();
     }
 
     public function updateAction()
     {
         $id = $this->getRequest()->getParam('id');
-        if($this->getRequest()->isPost()){
-            $row = $this->_country->getRow($id);
-            $updated = $this->_getDiffColumns($row->toArray());
-            $this->_country->edit($id, $updated);
+        if($this->getRequest()->isPost()) {
+            // if form submit
+            if($this->_form->isValid($this->_request->getParams())) {
+                $row = $this->_country->getRow($id);
+                $updated = $this->_getDiffColumns($row->toArray());
+                $this->_country->edit($id, $updated);
+            } else { 
+                $this->view->errors = $this->_form->getErrors();
+            }
         }
-        
         $this->view->country = $this->_country->getRow($id);
+        $this->_forward('index');
     }
 
     public function deleteAction()
     {
        if($this->getRequest()->isPost()){
            $id = $this->getRequest()->getParam('id');
-           if($this->checkDelete($id)){
-               $this->del($id);
+           if($this->_country->checkDelete($id)){
+               $this->_country->del($id);
            }
        }
+       $this->_redirect('/country/');
     }
 
     public function searchAction()
     {
         if($this->getRequest()->isPost()){
-            //$this->_columns[] = 'created';
-            //$this->_columns[] = 'modified';
-            $search = $this->_getColumnsFromRequest();
+            $search = array_diff($this->_getColumnsFromRequest(), array('',null));
             $this->view->countries = $this->_country->getByCondition($search);
-                      
         }
-        
     }
 
     public function addAction()
     {
-       $this->render('index');
+        if($this->_form->isValid($this->_request->getParams())) {
+             $inserted = $this->_getColumnsFromRequest();
+             $id = $this->_country->insert($inserted);
+        }
+        $this->view->errors = $this->_form->getErrors();
+        $this->_forward('index');
     }
-    
-    protected function _getDiffColumns($row)
-    {
-        if(! is_array($this->_columns)) {
-            return false;
-    	}
-      	// return array from request wich keys correspond $_columns
-        $diff = array_diff($this->_getAllParams(), $row);
-        return array_intersect_key($diff, array_flip($this->_columns));
-    }
-    
-    protected function _getColumnsFromRequest()
-    {
-        return array_intersect_key($this->_getAllParams(), array_flip($this->_columns));
-    }
-
 
 }

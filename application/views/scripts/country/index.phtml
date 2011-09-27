@@ -1,4 +1,28 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>Country</b> and script/action name <b>index</b></p>
-</div>
+<?php foreach ($this->countries as $country): ?>
+    <div>
+        <label> NAME : <?= $country->name; ?> </label>
+        <label> ID : <?= $country->id; ?> </label>
+        <label> short : <?= $country->name_short; ?> </label>
+        <label> ISO2 : <?= $country->iso2; ?> </label>
+        <label> ISO3 : <?= $country->iso3; ?> </label>
+        <a href="/country/update/?id=<?= $country->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+if(!empty($this->country)) {
+    $this->form->setDefaults($this->country->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

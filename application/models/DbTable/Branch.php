@@ -42,7 +42,6 @@ class Application_Model_DbTable_Branch extends Application_Model_ApplicationTabl
                 $select->where($column.' = ?', $value);
             }
         }
-        
         return $this->fetchAll($select);
     }
     
