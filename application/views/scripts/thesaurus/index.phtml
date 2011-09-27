@@ -1,10 +1,11 @@
-<?php foreach ($this->libraries as $library): ?>
+<?php foreach ($this->thesauruses as $thesaurus): ?>
     <div>
-        <label> NAME : <?= $library->name; ?> </label>
-        <label> ID : <?= $library->id; ?> </label>
-        <a href="/library/update/?id=<?= $library->id; ?>">редактировать</a>
+        <label> NAME : <?= $thesaurus->name; ?> </label>
+        <label> ID : <?= $thesaurus->id; ?> </label>
+        <a href="/thesaurus/update/?id=<?= $thesaurus->id; ?>">редактировать</a>
     </div>
 <?php endforeach; ?>
+
 <?php 
 if(is_array($this->errors)) {
     foreach ($this->errors as $name=>$error){
@@ -13,9 +14,8 @@ if(is_array($this->errors)) {
         }
     }
 }
-
-if(!empty($this->library)) {
-    $this->form->setDefaults($this->library->toArray());
+if(!empty($this->thesaurus)) {
+    $this->form->setDefaults($this->thesaurus->toArray());
     $this->form->removeElement('addBtn');
     $this->form->removeElement('searchBtn');
 } else {
@@ -23,4 +23,3 @@ if(!empty($this->library)) {
     $this->form->removeElement('editBtn');
 }
 echo $this->form->render();
-?>

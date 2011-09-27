@@ -1,4 +1,31 @@
-<br /><br />
-<div id="view-content">
-	<p>View script for controller <b>City</b> and script/action name <b>index</b></p>
-</div>
+<?php foreach ($this->cities as $city): ?>
+    <div>
+        <?php if(is_array($this->countries)): ?>
+            <?php if ($this->countries[$city->id]):?>
+              <label> Country: <?= $this->countries[$city->id]->name; ?> </label>
+            <?php endif;?>
+        <?php endif;?>        
+        <label> NAME : <?= $city->name; ?> </label>
+        <label> ID : <?= $city->id; ?> </label>
+        <label> Country_ID : <?= $city->country_id; ?> </label>
+        <a href="/city/update/?id=<?= $city->id ?>">update</a>
+        <a href="/city/delete/?id=<?= $city->id ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<?php
+if(is_array($this->errors )) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode(';', $error) . '<br />';
+        }
+    }
+}
+if(!empty($this->city)) {
+    $this->form->setDefaults($this->city->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

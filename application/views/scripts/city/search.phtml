@@ -1,0 +1,11 @@
+<?php foreach ($this->cities as $city): ?>
+    <div>
+        <label> NAME : <?= $city->name; ?> </label>
+        <label> ID : <?= $city->id; ?> </label>
+        <label> LibID : <?= $city->country_id; ?> </label>
+        <a href="/country/update/?id=<?= $city->id; ?>">update</a>
+        <a href="/country/delete/?id=<?= $city->id; ?>">delete</a>
+    </div>
+<?php endforeach; ?>
+<a href="/country/" > country </a>
+<a href="/city/" > city </a>

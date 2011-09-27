@@ -1,28 +1,28 @@
 <?php
 require_once 'AppController.php';
 /**
- * CountryController
+ * LanguageController
  * 
  * @author Aleks S Tushin
  * @version 
  */
 
-class CountryController extends AppController
+class LanguageController extends AppController
 {
-    protected $_country;
+    protected $_language;
     
     protected $_columns = array ('name', 'name_short', 'iso2', 'iso3');
 
 
     public function init()
     {
-        $this->_country = new Application_Model_DbTable_Country();
-        $this->_form = new Application_Form_Country();
+        $this->_language = new Application_Model_DbTable_Language();
+        $this->_form = new Application_Form_Language();
     }
     
     public function indexAction()
     {
-       $this->view->countries = $this->_country->getAll();
+       $this->view->languages = $this->_language->getAll();
     }
 
     public function updateAction()
@@ -31,14 +31,14 @@ class CountryController extends AppController
         if($this->getRequest()->isPost()) {
             // if form submit
             if($this->_form->isValid($this->_request->getParams())) {
-                $row = $this->_country->getRow($id);
+                $row = $this->_language->getRow($id);
                 $updated = $this->_getDiffColumns($row->toArray());
-                $this->_country->edit($id, $updated);
+                $this->_language->edit($id, $updated);
             } else { 
                 $this->view->errors = $this->_form->getErrors();
             }
         }
-        $this->view->country = $this->_country->getRow($id);
+        $this->view->language = $this->_language->getRow($id);
         $this->_forward('index');
     }
 
@@ -46,18 +46,18 @@ class CountryController extends AppController
     {
        if($this->getRequest()->isPost()){
            $id = $this->getRequest()->getParam('id');
-           if($this->_country->checkDelete($id)){
-               $this->_country->del($id);
+           if($this->_language->checkDelete($id)){
+               $this->_language->del($id);
            }
        }
-       $this->_redirect('/country/');
+       $this->_redirect('/language/');
     }
 
     public function searchAction()
     {
         if($this->getRequest()->isPost()){
             $search = array_diff($this->_getColumnsFromRequest(), array('',null));
-            $this->view->countries = $this->_country->getByCondition($search);
+            $this->view->languages = $this->_language->getByCondition($search);
         }
     }
 
@@ -65,7 +65,7 @@ class CountryController extends AppController
     {
         if($this->_form->isValid($this->_request->getParams())) {
              $inserted = $this->_getColumnsFromRequest();
-             $id = $this->_country->insert($inserted);
+             $id = $this->_language->insert($inserted);
         }
         $this->view->errors = $this->_form->getErrors();
         $this->_forward('index');

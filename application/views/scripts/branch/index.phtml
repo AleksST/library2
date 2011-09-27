@@ -1,8 +1,10 @@
 <?php foreach ($this->branches as $branch): ?>
     <div>
-     	<?php if ($this->libraries[$branch->id]):?>
-        	<label> LibName: <?= $this->libraries[$branch->id]->name; ?> </label>
-        <?php endif;?>
+        <?php if(is_array($this->libraries)): ?>
+            <?php if ($this->libraries[$branch->id]):?>
+              <label> LibName: <?= $this->libraries[$branch->id]->name; ?> </label>
+            <?php endif;?>
+        <?php endif;?>        
         <label> NAME : <?= $branch->name; ?> </label>
         <label> ID : <?= $branch->id; ?> </label>
         <label> Librari_ID : <?= $branch->library_id; ?> </label>
@@ -10,18 +12,20 @@
         <a href="/branch/delete/?id=<?= $branch->id ?>">delete</a>
     </div>
 <?php endforeach; ?>
-<?php 
-foreach ($this->errors as $name=>$error){
-	if(count($error)){
-		echo 'ошибка в поле ' . $name .': ' . implode(';', $error) . '<br />';
-	}
+<?php
+if(is_array($this->errors )) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode(';', $error) . '<br />';
+        }
+    }
 }
 if(!empty($this->branch)) {
-	$this->form->setDefaults($this->branch->toArray());
-	$this->form->removeElement('addBtn');
-	$this->form->removeElement('searchBtn');
+    $this->form->setDefaults($this->branch->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
 } else {
-	$this->form->removeElement('deleteBtn');
-	$this->form->removeElement('editBtn');
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
 }
 echo $this->form->render();

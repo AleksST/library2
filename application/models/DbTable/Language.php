@@ -1,22 +1,26 @@
 <?php
 
 /**
- * Country
+ * Language
  * 
  * @author Aleks S Tushin
  * @version 
  */
 
-class Application_Model_DbTable_Country extends Application_Model_ApplicationTable {
+class Application_Model_DbTable_Language extends Application_Model_ApplicationTable {
     /**
      * The default table name 
      */
-    protected $_name = 'country';
+    protected $_name = 'language';
 
-    protected $_dependentTables = array('Application_Model_DbTable_City');
-    
-    public function checkDelete($id) {
-        return !$this->hasChild($this->getRow($id), 'Application_Model_DbTable_City');
+    //protected $_dependentTables = array('Application_Model_DbTable_City');
+
+    public function checkDelete($id) 
+    {
+        $language = $this->getRow($id);
+        //$relations = $this->hasChild($language, 'Application_Model_DbTable_City');
+        // return (0 == count($relations));
+        return false;
     }
 	
     public function getByCondition($search) {
@@ -32,8 +36,4 @@ class Application_Model_DbTable_Country extends Application_Model_ApplicationTab
         return $this->fetchAll($select);
     }
 	
-    public function getCities($country)
-    {
-    	return $country->findDependentRowset('Application_Model_DbTable_City');
-    }
 }

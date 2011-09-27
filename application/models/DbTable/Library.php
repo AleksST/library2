@@ -11,21 +11,9 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
 
     protected $_dependentTables = array('Application_Model_DbTable_Branch');
 
-
-
-    public function getAll() {
-        $select = $this->select();
-        return $this->fetchAll($select);
-    }
-
-    public function getRow($id) {
-        return $this->find($id)->current();
-    }
-
-    public function checkDelete($id) {
-        $library = $this->find($id)->current();
-        $branches = $library->findDependentRowset('Application_Model_DbTable_Branch');
-        return (0 == count($branches));
+    public function checkDelete($id) 
+    {
+        return !$this->hasChild($this->getRow($id), 'Application_Model_DbTable_Branch');
     }
     
     public function getByCondition($search)

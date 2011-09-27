@@ -6,14 +6,16 @@
  */
 class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
 
-    protected $_now;
+    private $_now;
+    private $_row;
+    private $_rowId; 
 
     public function init()
     {
         $this->_now = new Zend_Db_Expr('NOW()');
     }
     
-	public function del($id)
+    public function del($id)
     {
         $where = $this->getAdapter()->quoteInto('id = ?',$id);
         return $this->delete($where);
@@ -36,7 +38,7 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
         if(!count($data)) {
             return false;
         }
-        $data['created'] = $this->_now;
+        $data['created']  = $this->_now;
         $data['modified'] = $this->_now;
         parent::insert($data);
     }
@@ -45,7 +47,55 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
     {
         parent::delete($where);
     }
+    
+    public function countChild(Zend_Db_Table_Row_Abstract $row, $childName = '')
+    {
+    	if('' == ($childName = $this->_getChildName($childName)) ) {
+    		return 0;
+    	}
+    	return count($row->findDependentRowset($childName));
+    }
 
+	public function hasChild(Zend_Db_Table_Row_Abstract $row, $childName = '')
+    {
+    	return ($this->countChild($row, $childName) > 0);
+    }
+    
+    private function _getChildName($childName = '')
+    {
+    	if(!is_array($this->_dependentTables)){
+    		return '';
+    	}
+    	
+    	if('' != $childName){
+    		if(in_array($childName, $this->_dependentTables)){
+    			return $childName;
+    		}
+    	} else {
+    		// if table has only one child, return childName
+    		if(count($this->_dependentTables) == 1){
+    			return current($this->_dependentTables);
+    		}
+    	}
+    	
+    	return '';
+    }
+    
+	public function getRow($id) 
+    {
+    	if ($this->_rowId == $id){
+    		return $this->_row;
+    	}
+    	$this->_rowId = $id;
+        return $this->_row = $this->find($this->_rowId)->current();
+    }
+    
+	public function getAll() 
+    {
+        $select = $this->select();
+        return $this->fetchAll($select);
+    }
+    
     public function checkDelete($id)
     {
         return false;

@@ -1,28 +1,28 @@
 <?php
 require_once 'AppController.php';
 /**
- * CountryController
+ * ThesaurusController
  * 
  * @author Aleks S Tushin
  * @version 
  */
 
-class CountryController extends AppController
+class ThesaurusController extends AppController
 {
-    protected $_country;
+    protected $_thesaurus;
     
-    protected $_columns = array ('name', 'name_short', 'iso2', 'iso3');
+    protected $_columns = array ('name');
 
 
     public function init()
     {
-        $this->_country = new Application_Model_DbTable_Country();
-        $this->_form = new Application_Form_Country();
+        $this->_thesaurus = new Application_Model_DbTable_Thesaurus();
+        $this->_form = new Application_Form_Thesaurus();
     }
     
     public function indexAction()
     {
-       $this->view->countries = $this->_country->getAll();
+       $this->view->thesauruses = $this->_thesaurus->getAll();
     }
 
     public function updateAction()
@@ -31,14 +31,14 @@ class CountryController extends AppController
         if($this->getRequest()->isPost()) {
             // if form submit
             if($this->_form->isValid($this->_request->getParams())) {
-                $row = $this->_country->getRow($id);
+                $row = $this->_thesaurus->getRow($id);
                 $updated = $this->_getDiffColumns($row->toArray());
-                $this->_country->edit($id, $updated);
+                $this->_thesaurus->edit($id, $updated);
             } else { 
                 $this->view->errors = $this->_form->getErrors();
             }
         }
-        $this->view->country = $this->_country->getRow($id);
+        $this->view->thesaurus = $this->_thesaurus->getRow($id);
         $this->_forward('index');
     }
 
@@ -46,18 +46,18 @@ class CountryController extends AppController
     {
        if($this->getRequest()->isPost()){
            $id = $this->getRequest()->getParam('id');
-           if($this->_country->checkDelete($id)){
-               $this->_country->del($id);
+           if($this->_thesaurus->checkDelete($id)){
+               $this->_thesaurus->del($id);
            }
        }
-       $this->_redirect('/country/');
+       $this->_redirect('/thesaurus/');
     }
 
     public function searchAction()
     {
         if($this->getRequest()->isPost()){
             $search = array_diff($this->_getColumnsFromRequest(), array('',null));
-            $this->view->countries = $this->_country->getByCondition($search);
+            $this->view->thesauruses = $this->_thesaurus->getByCondition($search);
         }
     }
 
@@ -65,7 +65,7 @@ class CountryController extends AppController
     {
         if($this->_form->isValid($this->_request->getParams())) {
              $inserted = $this->_getColumnsFromRequest();
-             $id = $this->_country->insert($inserted);
+             $id = $this->_thesaurus->insert($inserted);
         }
         $this->view->errors = $this->_form->getErrors();
         $this->_forward('index');

@@ -18,13 +18,15 @@ $test = realpath(APPLICATION_PATH . '/../library');
 require_once 'Zend/Application.php';
 
 require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance();
-
+$load = Zend_Loader_Autoloader::getInstance();
 // Create application, bootstrap, and run
 $application = new Zend_Application(
     APPLICATION_ENV,
     APPLICATION_PATH . '/configs/application.ini'
 );
+
+$front = Zend_Controller_Front::getInstance();
+
 $application->bootstrap()
             ->run();
   
