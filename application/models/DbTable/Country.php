@@ -14,8 +14,10 @@ class Application_Model_DbTable_Country extends Application_Model_ApplicationTab
     protected $_name = 'country';
 
     protected $_dependentTables = array('Application_Model_DbTable_City');
+
     
-    public function checkDelete($id) {
+    public function checkDelete($id) 
+	{
         return !$this->hasChild($this->getRow($id), 'Application_Model_DbTable_City');
     }
 	
