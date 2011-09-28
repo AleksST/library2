@@ -1,0 +1,27 @@
+<?php foreach ($this->authorResps as $authorResp): ?>
+    <div>
+        <label> ID : <?= $authorResp->id; ?> </label>
+        <label> NAME : <?= $authorResp->name; ?> </label>
+        <label> SHORT : <?= $authorResp->name_short; ?> </label>
+        <a href="/authorResp/update/?id=<?= $authorResp->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->authorResp)) {
+    $this->form->setDefaults($this->authorResp->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

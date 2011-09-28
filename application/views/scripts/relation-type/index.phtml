@@ -1,0 +1,28 @@
+<?php foreach ($this->relationTypes as $relationType): ?>
+    <div>
+        <label> ID : <?= $relationType->id; ?> </label>
+        <label> NAME : <?= $relationType->name; ?> </label>
+        <label> COD : <?= $relationType->cod; ?> </label>
+        <label> OPPOSITECOD : <?= $relationType->opposite_cod; ?> </label>
+        <a href="/relationType/update/?id=<?= $relationType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->relationType)) {
+    $this->form->setDefaults($this->relationType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();
