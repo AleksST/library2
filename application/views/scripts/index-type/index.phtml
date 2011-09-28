@@ -1,0 +1,27 @@
+<?php foreach ($this->indexTypes as $indexType): ?>
+    <div>
+        <label> ID : <?= $indexType->id; ?> </label>
+        <label> NAME : <?= $indexType->name; ?> </label>
+        <label> COD : <?= $indexType->cod; ?> </label>
+        <a href="/indexType/update/?id=<?= $indexType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->indexType)) {
+    $this->form->setDefaults($this->indexType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

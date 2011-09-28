@@ -1,0 +1,27 @@
+<?php foreach ($this->headerTypes as $headerType): ?>
+    <div>
+        <label> ID : <?= $headerType->id; ?> </label>
+        <label> NAME : <?= $headerType->name; ?> </label>
+        <label> COD : <?= $headerType->cod; ?> </label>
+        <a href="/headerType/update/?id=<?= $headerType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->headerType)) {
+    $this->form->setDefaults($this->headerType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

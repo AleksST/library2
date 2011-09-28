@@ -1,0 +1,26 @@
+<?php foreach ($this->languageTypes as $languageType): ?>
+    <div>
+        <label> ID : <?= $languageType->id; ?> </label>
+        <label> NAME : <?= $languageType->name; ?> </label>
+        <a href="/languageType/update/?id=<?= $languageType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->languageType)) {
+    $this->form->setDefaults($this->languageType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

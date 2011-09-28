@@ -1,0 +1,27 @@
+<?php foreach ($this->rubricTypes as $rubricType): ?>
+    <div>
+        <label> ID : <?= $rubricType->id; ?> </label>
+        <label> NAME : <?= $rubricType->name; ?> </label>
+        <label> COD : <?= $rubricType->cod; ?> </label>
+        <a href="/rubricType/update/?id=<?= $rubricType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->rubricType)) {
+    $this->form->setDefaults($this->rubricType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

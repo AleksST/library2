@@ -1,0 +1,27 @@
+<?php foreach ($this->snumberTypes as $snumberType): ?>
+    <div>
+        <label> ID : <?= $snumberType->id; ?> </label>
+        <label> NAME : <?= $snumberType->name; ?> </label>
+        <label> COD : <?= $snumberType->cod; ?> </label>
+        <a href="/snumberType/update/?id=<?= $snumberType->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->snumberType)) {
+    $this->form->setDefaults($this->snumberType->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();
