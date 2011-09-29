@@ -13,6 +13,7 @@ class Application_Model_DbTable_AuthorType extends Application_Model_Application
      */
     protected $_name = 'author_type';
 
+
     protected $_dependentTables = array('Application_Model_DbTable_Author');
 
     public function checkDelete($id) 
