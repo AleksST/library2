@@ -19,7 +19,17 @@ class Application_Model_DbTable_Author extends Application_Model_ApplicationTabl
             'columns'           => 'alternativename_id',
             'refTableClass'     => 'Application_Model_DbTable_Author',
             'refColumns'        => 'id'
-        )
+        ),
+        'AuthorType' => array(
+            'columns'           => 'author_type_id',
+            'refTableClass'     => 'Application_Model_DbTable_AuthorType',
+            'refColumns'        => 'id'
+        ),
+        'Authorsign' => array(
+            'columns'           => 'authorsign_id',
+            'refTableClass'     => 'Application_Model_DbTable_Authorsign',
+            'refColumns'        => 'id'
+        ),
     );
 
     public function checkDelete($id) 
@@ -39,6 +49,11 @@ class Application_Model_DbTable_Author extends Application_Model_ApplicationTabl
         }
 
         return $this->fetchAll($select);
+    }
+    
+    public function getAuthorType($author)
+    {
+    	return $author->findParentRow('Application_Model_DbTable_AuthorType');
     }
 	
     public function getAlternativeAuthor($author)

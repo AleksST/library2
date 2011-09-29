@@ -1,30 +1,29 @@
 <?php
 
 /**
- * Language
+ * Authorsign
  * 
  * @author Aleks S Tushin
  * @version 
  */
 
-class Application_Model_DbTable_Language extends Application_Model_ApplicationTable {
+class Application_Model_DbTable_Authorsign extends Application_Model_ApplicationTable {
     /**
      * The default table name 
      */
-    protected $_name = 'language';
+    protected $_name = 'authorsign';
 
-    protected $_dependentTables = array('Application_Model_DbTable_ItemLanguage');
+    protected $_dependentTables = array('Application_Model_DbTable_Author');
 
     public function checkDelete($id) 
     {
-        $language = $this->getRow($id);
-        //$relations = $this->hasChild($language, 'Application_Model_DbTable_City');
-        // return (0 == count($relations));
+        //return !$this->hasChild($this->getRow($id), 'Application_Model_DbTable_Authorsign');
         return false;
     }
 	
-    public function getByCondition($search) {
-        $select = $this->select ();
+    public function getByCondition($search) 
+    {
+        $select = $this->select();
         foreach ( $search as $column => $value ) {
             if (strpos ( $value, '*' ) !== false) {
                 $select->where($column . ' like(?)', str_replace('*', '%', $value));
@@ -35,5 +34,5 @@ class Application_Model_DbTable_Language extends Application_Model_ApplicationTa
 
         return $this->fetchAll($select);
     }
-	
+    
 }

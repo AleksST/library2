@@ -13,7 +13,7 @@ class Application_Model_DbTable_AuthorResp extends Application_Model_Application
      */
     protected $_name = 'author_resp';
 
-    //protected $_dependentTables = array('Application_Model_DbTable_AuthorResp');
+    protected $_dependentTables = array('Application_Model_DbTable_ItemAuthor');
 
     public function checkDelete($id) 
     {

@@ -1,9 +1,10 @@
 <?php
 require_once 'AppController.php';
 /**
- * AuthorController
+ * AuthorRespController 
+ * Author's responsibility
  * 
- * @authorResp Aleks S Tushin
+ * @author Aleks S Tushin
  * @version 
  */
 

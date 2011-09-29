@@ -1,0 +1,26 @@
+<?php foreach ($this->authorsigns as $authorsign): ?>
+    <div>
+        <label> ID : <?= $authorsign->id; ?> </label>
+        <label> NAME : <?= $authorsign->name; ?> </label>
+        <a href="/authorsign/update/?id=<?= $authorsign->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->authorsign)) {
+    $this->form->setDefaults($this->authorsign->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();
