@@ -1,0 +1,31 @@
+<?php foreach ($this->series as $seria): ?>
+    <div>
+        <label> ID : <?= $seria->id; ?> </label>
+        <label> NAME : <?= $seria->name; ?> </label>
+        <label> publisher_id : <?= $seria->publisher_id; ?> </label>
+        <label> order : <?= $seria->order; ?> </label>
+        <label> name_parallel : <?= $seria->name_parallel; ?> </label>
+        <label> note : <?= $seria->note; ?> </label>
+        <label> issn : <?= $seria->issn; ?> </label>   
+        <a href="/seria/update/?id=<?= $seria->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->seria)) {
+    $this->form->setDefaults($this->seria->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

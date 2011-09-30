@@ -1,0 +1,28 @@
+<?php foreach ($this->subseries as $subseria): ?>
+    <div>
+        <label> ID : <?= $subseria->id; ?> </label>
+        <label> NAME : <?= $subseria->name; ?> </label>
+        <label> seria_id : <?= $subseria->seria_id; ?> </label>
+        <label> order : <?= $subseria->order; ?> </label>
+        <a href="/subseria/update/?id=<?= $subseria->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->subseria)) {
+    $this->form->setDefaults($this->subseria->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();

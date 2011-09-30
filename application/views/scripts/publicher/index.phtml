@@ -1,0 +1,25 @@
+<?php foreach ($this->publishers as $publisher): ?>
+    <div>
+        <label> NAME : <?= $publisher->name; ?> </label>
+        <label> ID : <?= $publisher->id; ?> </label>
+        <a href="/publisher/update/?id=<?= $publisher->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
+
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+if(!empty($this->publisher)) {
+    $this->form->setDefaults($this->publisher->toArray());
+    $this->form->removeElement('addBtn');
+    $this->form->removeElement('searchBtn');
+} else {
+    $this->form->removeElement('deleteBtn');
+    $this->form->removeElement('editBtn');
+}
+echo $this->form->render();
