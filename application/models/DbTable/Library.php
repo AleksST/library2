@@ -29,5 +29,13 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
         
         return $this->fetchAll($select);
     }
+    
+    public function getAll() {
+        $libraries = $this->fetchAll();
+        foreach ($libraries as $library) {
+            $branches[$library->id] = $library->findDependentRowset('Application_Model_DbTable_Branch');
+        }
+        return array($libraries, $branches);
+    }
 
 }

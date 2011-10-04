@@ -13,7 +13,7 @@ class Application_Model_DbTable_Publisher extends Application_Model_ApplicationT
      */
     protected $_name = 'publisher';
 
-    //protected $_dependentTables = array('Application_Model_DbTable_Publisher');
+    protected $_dependentTables = array('Application_Model_DbTable_ItemPublisher');
    // protected $_referenceMap    = array(
 //        'AlternativePublisher' => array(
 //            'columns'           => 'alternativename_id',

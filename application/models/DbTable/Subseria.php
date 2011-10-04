@@ -6,6 +6,7 @@ class Application_Model_DbTable_Subsera extends Application_Model_ApplicationTab
     protected $_name = 'subseria';
     private $_seria;
     
+    protected $_dependentTables = array('Application_Model_DbTable_ItemPublisher');
     protected $_referenceMap    = array(
         'Seria' => array(
             'columns'           => 'seria_id',

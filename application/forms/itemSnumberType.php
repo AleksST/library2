@@ -4,9 +4,9 @@ class Application_Form_ItemSnumberType extends Zend_Form
     public function __construct($options = null) {
         parent::__construct($options);
         
-        $this->setName('itemSnumberType');
+        $this->setName('item-snumber-type');
         $this->setMethod('post');
-        $this->setAction('/itemSnumberType/');
+        $this->setAction('/item-snumber-type/');
         
         $id = new Zend_Form_Element_Hidden('id');
         
@@ -20,16 +20,16 @@ class Application_Form_ItemSnumberType extends Zend_Form
         		->addErrorMessage('Обязательное поле');
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/itemSnumberType/search');
+        $searchBtn->setAttrib('formaction', '/item-snumber-type/search');
         
         $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/itemSnumberType/delete');
+        $deleteBtn->setAttrib('formaction', '/item-snumber-type/delete');
         
         $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/itemSnumberType/update');
+        $editBtn->setAttrib('formaction', '/item-snumber-type/update');
         
         $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/itemSnumberType/add');
+        $addBtn->setAttrib('formaction', '/item-snumber-type/add');
         
         $this->addElements(
             compact('id', 'snumber_type_id', 'type_id'

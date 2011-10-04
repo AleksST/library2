@@ -4,9 +4,9 @@ class Application_Form_HeaderType extends Zend_Form
     public function __construct($options = null) {
         parent::__construct($options);
         
-        $this->setName('headerType');
+        $this->setName('header-type');
         $this->setMethod('post');
-        $this->setAction('/headerType/');
+        $this->setAction('/header-type/');
         
         $id = new Zend_Form_Element_Hidden('id');
         
@@ -18,16 +18,16 @@ class Application_Form_HeaderType extends Zend_Form
         $cod->setLabel('код поля по русмарк');
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/headerType/search');
+        $searchBtn->setAttrib('formaction', '/header-type/search');
         
         $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/headerType/delete');
+        $deleteBtn->setAttrib('formaction', '/header-type/delete');
         
         $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/headerType/update');
+        $editBtn->setAttrib('formaction', '/header-type/update');
         
         $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/headerType/add');
+        $addBtn->setAttrib('formaction', '/header-type/add');
         
         $this->addElements(
             compact('id', 'name', 'cod'

@@ -1,9 +1,8 @@
-<?php foreach ($this->rubricTypes as $rubricType): ?>
+<?php foreach ($this->items as $item): ?>
     <div>
-        <label> ID : <?= $rubricType->id; ?> </label>
-        <label> NAME : <?= $rubricType->name; ?> </label>
-        <label> COD : <?= $rubricType->cod; ?> </label>
-        <a href="/rubric-type/update/?id=<?= $rubricType->id; ?>">редактировать</a>
+        <label> ID : <?= $item->id; ?> </label>
+        <label> NAME : <?= $item->type_id; ?> </label>
+        <a href="/item/update/?id=<?= $item->id; ?>">редактировать</a>
     </div>
 <?php endforeach; ?>
 
@@ -16,8 +15,8 @@ if(is_array($this->errors)) {
     }
 }
 
-if(!empty($this->rubricType)) {
-    $this->form->setDefaults($this->rubricType->toArray());
+if(!empty($this->item)) {
+    $this->form->setDefaults($this->item->toArray());
     $this->form->removeElement('addBtn');
     $this->form->removeElement('searchBtn');
 } else {

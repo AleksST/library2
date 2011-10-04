@@ -13,7 +13,7 @@ class LibraryController extends AppController
 
     public function indexAction()
     {
-        $this->view->libraries = $this->_library->getAll();
+        list($this->view->libraries, $this->view->branches) = $this->_library->getAll();
     }
 
     public function updateAction()
@@ -27,6 +27,7 @@ class LibraryController extends AppController
                 $this->_library->edit($id, $updated);
             } else { 
                 $this->view->errors = $this->_form->getErrors();
+                $this->_form->populate();
             }
         }
         $this->view->library = $this->_library->getRow($id);

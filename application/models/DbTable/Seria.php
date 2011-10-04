@@ -6,6 +6,7 @@ class Application_Model_DbTable_Seira extends Application_Model_ApplicationTable
     protected $_name = 'seria';
     private $_publicher;
     
+    protected $_dependentTables = array('Application_Model_DbTable_ItemPublisher');
     protected $_referenceMap    = array(
         'Publicher' => array(
             'columns'           => 'publicher_id',

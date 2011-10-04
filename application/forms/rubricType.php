@@ -4,9 +4,9 @@ class Application_Form_RubricType extends Zend_Form
     public function __construct($options = null) {
         parent::__construct($options);
         
-        $this->setName('rubricType');
+        $this->setName('rubric-type');
         $this->setMethod('post');
-        $this->setAction('/rubricType/');
+        $this->setAction('/rubric-type/');
         
         $id = new Zend_Form_Element_Hidden('id');
         
@@ -18,16 +18,16 @@ class Application_Form_RubricType extends Zend_Form
         $cod->setLabel('код поля типа рубрики по русмарк');
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/rubricType/search');
+        $searchBtn->setAttrib('formaction', '/rubric-type/search');
         
         $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/rubricType/delete');
+        $deleteBtn->setAttrib('formaction', '/rubric-type/delete');
         
         $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/rubricType/update');
+        $editBtn->setAttrib('formaction', '/rubric-type/update');
         
         $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/rubricType/add');
+        $addBtn->setAttrib('formaction', '/rubric-type/add');
         
         $this->addElements(
             compact('id', 'name', 'cod'

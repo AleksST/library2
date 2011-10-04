@@ -4,9 +4,9 @@ class Application_Form_NoteType extends Zend_Form
     public function __construct($options = null) {
         parent::__construct($options);
         
-        $this->setName('noteType');
+        $this->setName('note-type');
         $this->setMethod('post');
-        $this->setAction('/noteType/');
+        $this->setAction('/note-type/');
         
         $id = new Zend_Form_Element_Hidden('id');
         
@@ -18,16 +18,16 @@ class Application_Form_NoteType extends Zend_Form
         $cod->setLabel('код поля по русмарк');
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/noteType/search');
+        $searchBtn->setAttrib('formaction', '/note-type/search');
         
         $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/noteType/delete');
+        $deleteBtn->setAttrib('formaction', '/note-type/delete');
         
         $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/noteType/update');
+        $editBtn->setAttrib('formaction', '/note-type/update');
         
         $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/noteType/add');
+        $addBtn->setAttrib('formaction', '/note-type/add');
         
         $this->addElements(
             compact('id', 'name', 'cod'

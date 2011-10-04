@@ -3,6 +3,12 @@
         <label> NAME : <?= $library->name; ?> </label>
         <label> ID : <?= $library->id; ?> </label>
         <a href="/library/update/?id=<?= $library->id; ?>">редактировать</a>
+        <?php foreach ($this->branches[$library->id] as $branch) : ?>
+        <div>   
+            <label> BRANCH : <?= $branch->name; ?> </label>
+            <label> ID : <?= $branch->id; ?> </label>
+        </div>
+        <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
 <?php 

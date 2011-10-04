@@ -13,7 +13,7 @@ class Application_Model_DbTable_HeaderType extends Application_Model_Application
      */
     protected $_name = 'header_type';
 
-    //protected $_dependentTables = array('Application_Model_DbTable_HeaderType');
+    protected $_dependentTables = array('Application_Model_DbTable_ItemHeader');
 
     public function checkDelete($id) 
     {
