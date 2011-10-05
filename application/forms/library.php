@@ -2,7 +2,7 @@
 
 class Application_Form_Library extends Zend_Form
 {
-    public function __construct($options = null) {
+    public function __construct($options = null, $library = null) {
         parent::__construct($options);
         $this->setName('library');
         $this->setMethod('post');
@@ -13,7 +13,6 @@ class Application_Form_Library extends Zend_Form
         $name->setRequired()->setLabel('name')
         	 ->addErrorMessage('Обязательное поле');
         
-        
         $address = $this->createElement('text', 'address');
         $address->setLabel('address');
         
@@ -22,6 +21,20 @@ class Application_Form_Library extends Zend_Form
         
         $note = $this->createElement('text', 'note');
         $note->setLabel('note');
+        
+        $subforms = array();
+        if ($library instanceof Zend_Db_Table_Row) {
+        	$branches = $library->findDependentRowset('Application_Model_DbTable_Branch');
+        	
+	        foreach ($branches as $i=>$branch) {
+	        	$subform = new Zend_Form_SubForm();
+	        	$subFormName = 'Branch[' . $i .']';
+	        	$subform->setName($subFormName);
+	        	$subform->addElement('text','name', array('value'=>$branch->name, 'belongsTo'=> $subFormName));
+	        	$subform->addElement('hidden','id', array('value'=>$branch->id, 'belongsTo'=> $subFormName));
+	        	$subforms[$i] = $subform;
+	        }
+        }
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
         $searchBtn->setAttrib('formaction', '/library/search');
@@ -35,9 +48,13 @@ class Application_Form_Library extends Zend_Form
         $addBtn = new Zend_Form_Element_Submit('Добавить');
         $addBtn->setAttrib('formaction', '/library/add');
         
-        $this->addElements(
-            compact('id', 'name', 'address', 'short_name', 'note'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
-        ));
+        $this->addElements(compact('id', 'name', 'address', 'short_name', 'note'));
+        
+        foreach ($subforms as $i=>$subform) {
+        	$this->addSubForm($subform, 'Branch['.$i.']');
+        }
+        
+        $this->addElements(compact('searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'));
+        
     }
 }

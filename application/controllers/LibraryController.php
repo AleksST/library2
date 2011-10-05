@@ -8,7 +8,10 @@ class LibraryController extends AppController
     public function init()
     {
         $this->_library = new Application_Model_DbTable_Library();
-        $this->_form = new Application_Form_Library();
+        // after _forward() function don't rewrite $_form
+        if(empty($this->view->library)) {
+        	$this->_form = new Application_Form_Library();
+        }
     }
 
     public function indexAction()
@@ -31,6 +34,7 @@ class LibraryController extends AppController
             }
         }
         $this->view->library = $this->_library->getRow($id);
+        $this->_form = new Application_Form_Library(null, $this->view->library);
         $this->_forward('index');
     }
 

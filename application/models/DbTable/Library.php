@@ -33,9 +33,13 @@ class Application_Model_DbTable_Library extends Application_Model_ApplicationTab
     public function getAll() {
         $libraries = $this->fetchAll();
         foreach ($libraries as $library) {
-            $branches[$library->id] = $library->findDependentRowset('Application_Model_DbTable_Branch');
+            $branches[$library->id] = $this->getBranches($library);
         }
         return array($libraries, $branches);
     }
-
+	
+    public function getBranches($library)
+    {
+    	return $library->findDependentRowset('Application_Model_DbTable_Branch');
+    }
 }
