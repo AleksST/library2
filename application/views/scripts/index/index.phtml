@@ -43,3 +43,18 @@
         </p>
     </div>
 </div>
+<?php echo $this->ajaxLink("Show me something",
+                    "/hello/world",
+                    array('update' => '#content'));?>
+ 
+<div id="content"></div>
+ 
+<form method="post" action="/index/index">
+Pick your Date: 
+<?php echo $this->datePicker("dp1",
+                             '',
+                             array(
+                                'defaultDate' =>
+                                    date('Y/m/d', time())));?>
+<input type="submit" value="Submit" />
+</form>

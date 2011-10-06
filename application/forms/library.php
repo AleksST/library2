@@ -24,16 +24,16 @@ class Application_Form_Library extends Zend_Form
         
         $subforms = array();
         if ($library instanceof Zend_Db_Table_Row) {
-        	$branches = $library->findDependentRowset('Application_Model_DbTable_Branch');
-        	
-	        foreach ($branches as $i=>$branch) {
-	        	$subform = new Zend_Form_SubForm();
-	        	$subFormName = 'Branch[' . $i .']';
-	        	$subform->setName($subFormName);
-	        	$subform->addElement('text','name', array('value'=>$branch->name, 'belongsTo'=> $subFormName));
-	        	$subform->addElement('hidden','id', array('value'=>$branch->id, 'belongsTo'=> $subFormName));
-	        	$subforms[$i] = $subform;
-	        }
+            $branches = $library->findDependentRowset('Application_Model_DbTable_Branch');
+
+            foreach ($branches as $i=>$branch) {
+                $subform = new Zend_Form_SubForm();
+                $subFormName = 'Branch[' . $i .']';
+                $subform->setName($subFormName);
+                $subform->addElement('text','name', array('value'=>$branch->name, 'belongsTo'=> $subFormName));
+                $subform->addElement('hidden','id', array('value'=>$branch->id, 'belongsTo'=> $subFormName));
+                $subforms[$i] = $subform;
+            }
         }
         
         $searchBtn = new Zend_Form_Element_Submit('Поиск');
@@ -51,7 +51,7 @@ class Application_Form_Library extends Zend_Form
         $this->addElements(compact('id', 'name', 'address', 'short_name', 'note'));
         
         foreach ($subforms as $i=>$subform) {
-        	$this->addSubForm($subform, 'Branch['.$i.']');
+            //$this->addSubForm($subform, 'Branch['.$i.']');
         }
         
         $this->addElements(compact('searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'));
