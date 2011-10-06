@@ -23,6 +23,13 @@ class Application_Form_Branch extends Zend_Form
                    ->registerInArrayValidator();
         $library_id->setValue(0);
         
+        $lib_name = new ZendX_JQuery_Form_Element_AutoComplete(
+                'lib_name',
+                array('JQueryParams' => array( 'source' => array_values($options) ))
+                
+        );
+        $lib_name->setLabel('Библиотека');
+        
         $address = $this->createElement('text', 'address');
         $address->setLabel('address');
         
@@ -42,7 +49,7 @@ class Application_Form_Branch extends Zend_Form
         $addBtn->setAttrib('formaction', '/branch/add');
         
         $this->addElements(
-            compact('id', 'name', 'library_id', 'address', 'short_name', 'note'
+            compact('id', 'name', 'library_id', 'address', 'short_name', 'note', 'lib_name'
                     ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
     }

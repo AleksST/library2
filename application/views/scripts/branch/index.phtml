@@ -29,3 +29,53 @@ if(!empty($this->branch)) {
     $this->form->removeElement('editBtn');
 }
 echo $this->form->render();
+
+$form = new ZendX_JQuery_Form();
+$subForm1 = new ZendX_JQuery_Form();
+$subForm2 = new ZendX_JQuery_Form();
+
+$form->setDecorators(array(
+    'FormElements', 
+    array('TabContainer', array('id' => 'TabContainer', 'style' => 'width: 600px;')),
+    'Form',
+));
+
+$subForm1->setDecorators(array(
+    'FormElements',
+    array('HtmlTag', array('tag' => 'dl')),
+    array('TabPane', array('jQueryParams' => array(
+        'containerId' => 'mainForm',
+        'title' => 'datePicker'
+    ))),
+    'Form'
+));
+
+$subForm2->setDecorators(array(
+    'FormElements',
+    array('HtmlTag', array('tag' => 'dl')),
+    array('TabPane', array('jQueryParams' => array(
+        'containerId' => 'mainForm',
+        'title' => 'autocomplite and slider'
+    ))),
+    'Form'
+));
+
+$subForm1->addElement('DatePicker', 'datePicker1', array(
+        'label' => 'datePicker: ',
+        'JQueryParams'=> array('dateFormat'=>'dd.mm.yyyy')
+));
+
+$subForm2->addElement('Slider', 'Slider1', array(
+        'label' => 'Slider: ',
+        'JQueryParams'=> array('defaultValue'=>'75')
+));
+
+$subForm1->addElement('AutoComplete', 'acl', array(
+            'label' => 'AutoComplete: ',
+            'JQueryParams'=> array('source'=>array('111', '222', '333', '444'))
+));
+
+$form->addSubForm($subForm1, 'subform1');
+$form->addSubForm($subForm2, 'subform2');
+
+//echo $form->render();
