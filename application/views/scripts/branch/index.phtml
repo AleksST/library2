@@ -1,10 +1,12 @@
 <script type="text/javascript">
-
+// library name and id validation
 $(document).ready(function() {
-	$("#library_id").addEventListener('change', function(event){
-	//	$("#library_id").val(0);
+	$("#library_name").change(function(){
+		if( (typeof(library) !== "undefined") && (library.value != this.value) ){
+			//todo: show warning and add library button
+			$("#library_id").val(0);
+		}
 	});
-	alert('hi!');
 });
 </script>
 
@@ -18,7 +20,7 @@ if(is_array($this->errors )) {
 }
 
 if(!empty($this->branch)) {
-    $this->form->setDefaults($this->branch->toArray());
+    $this->form->subform->setDefaults($this->branch);
     $this->form->subform->removeElement('addBtn');
     $this->form->subform->removeElement('searchBtn');
 } else {
@@ -30,14 +32,14 @@ echo $this->form->render();
 ?><?php foreach ($this->branches as $branch): ?>
     <div>
         <?php if(is_array($this->libraries)): ?>
-            <?php if ($this->libraries[$branch->id]):?>
-              <label> LibName: <?= $this->libraries[$branch->id]->name; ?> </label>
+            <?php if ($this->libraries[$branch['id']]):?>
+              <label> LibName: <?= $this->libraries[$branch['id']]->name; ?> </label>
             <?php endif;?>
         <?php endif;?>        
-        <label> NAME : <?= $branch->name; ?> </label>
-        <label> ID : <?= $branch->id; ?> </label>
-        <label> Librari_ID : <?= $branch->library_id; ?> </label>
-        <a href="/branch/update/?id=<?= $branch->id ?>">update</a>
-        <a href="/branch/delete/?id=<?= $branch->id ?>">delete</a>
+        <label> NAME : <?= $branch['name']; ?> </label>
+        <label> ID : <?= $branch['id']; ?> </label>
+        <label> Librari_ID : <?= $branch['library_id']; ?> </label>
+        <a href="/branch/update/?id=<?= $branch['id'] ?>">update</a>
+        <a href="/branch/delete/?id=<?= $branch['id'] ?>">delete</a>
     </div>
 <?php endforeach; ?>

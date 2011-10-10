@@ -38,14 +38,19 @@ class BranchController extends AppController
             // if edit form submit
             if($this->_form->isValid($this->_request->getParams())) {
                 $row = $this->_branch->getRow($id);
-                Zend_Debug::dump($this->_request->getParams());
                 $updated = $this->_getDiffColumns($row->toArray());
                 $this->_branch->edit($id, $updated);
             } else {
                 $this->view->errors = $this->_form->getErrors();
             }
         }
-        $this->view->branch = $this->_branch->getRow($id);
+        $branch = $this->_branch->getRow($id);
+        $library = $this->_branch->getLibrary($branch);
+        $branch = $branch->toArray();
+        $branch['library_name'] = $library->name;
+        $this->view->branch = $branch;
+        Zend_Debug::dump($branch);
+                
         $this->_forward('index');
     }
 

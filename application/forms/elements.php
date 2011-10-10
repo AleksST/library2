@@ -8,7 +8,7 @@ class Application_Form_Elements
 	 * @param string $name - controller name
 	 * @return array of Zend_Form_Element_Submit objs
 	 */
-	public static function getStandartButtons($name = null)
+	public static function getStandardButtons($name = null)
 	{
 		// @todo: set decarators to display buttons inline with known sizes
 		$searchBtn = new Zend_Form_Element_Submit('Поиск');

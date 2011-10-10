@@ -37,17 +37,18 @@ class Application_Form_Branch extends ZendX_JQuery_Form
 
         $library_id = new Zend_Form_Element_Hidden('library_id');
         	 
-        $lib_name = new ZendX_JQuery_Form_Element_AutoComplete(
-                'lib_name',
+        $library_name = new ZendX_JQuery_Form_Element_AutoComplete(
+                'library_name',
                 array('JQueryParams' => array( 
                 	'source' => '/library/autocomplete/',
                 	'select'=> new Zend_Json_Expr('function(event, ui){
                 		$("#library_id").val(ui.item.id);
+                		library = ui.item;
     				}')
                 ))
                 
         );
-        $lib_name->setLabel('Библиотека');
+        $library_name->setLabel('Библиотека');
         
         $name_short = new Zend_Form_Element_Text('name_short');
 		$name_short->setLabel('Короткое имя: ');
@@ -56,7 +57,7 @@ class Application_Form_Branch extends ZendX_JQuery_Form
 		$address->setLabel('Адрес: ');
         
         $form->addElements(
-            compact('id', 'name', 'lib_name', 'library_id', 'address', 'short_name', 'note'
+            compact('id', 'name', 'library_name', 'library_id', 'address', 'short_name', 'note'
         ));
         
         $form->addElements(Application_Form_Elements::getStandardButtons('branch'));
