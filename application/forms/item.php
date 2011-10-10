@@ -32,21 +32,10 @@ class Application_Form_Item extends Zend_Form
         $type_id->setRequired()->setLabel('type_id')
         	 ->addErrorMessage('Обязательное поле');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/item/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/item/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/item/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/item/add');
-        
         $this->addElements(
             compact('id', 'type_id', 'city_id', 'country_id'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('item'));
     }
 }

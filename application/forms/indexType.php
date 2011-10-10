@@ -17,21 +17,9 @@ class Application_Form_IndexType extends Zend_Form
         $cod = $this->createElement('text', 'cod');
         $cod->setLabel('код индекса по русмарк');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/index-type/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/index-type/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/index-type/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/index-type/add');
-        
         $this->addElements(
             compact('id', 'name', 'cod'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        $this->addElements(Application_Form_Elements::getStandardButtons('index-type'));
     }
 }

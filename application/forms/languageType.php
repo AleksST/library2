@@ -16,22 +16,11 @@ class Application_Form_LanguageType extends Zend_Form
         
         $cod = $this->createElement('text', 'cod');
         $cod->setLabel('код по русмарк');
-        
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/language-type/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/language-type/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/language-type/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/language-type/add');
-        
+  		 
         $this->addElements(
             compact('id', 'name', 'cod'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('language-type'));
     }
 }

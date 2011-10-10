@@ -38,6 +38,7 @@ class BranchController extends AppController
             // if edit form submit
             if($this->_form->isValid($this->_request->getParams())) {
                 $row = $this->_branch->getRow($id);
+                Zend_Debug::dump($this->_request->getParams());
                 $updated = $this->_getDiffColumns($row->toArray());
                 $this->_branch->edit($id, $updated);
             } else {

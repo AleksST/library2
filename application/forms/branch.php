@@ -1,56 +1,66 @@
 <?php
-class Application_Form_Branch extends Zend_Form
+class Application_Form_Branch extends ZendX_JQuery_Form
 {
     public function __construct($options = null) {
         parent::__construct($options);
         
-        $this->setName('branch');
-        $this->setMethod('post');
-        $this->setAction('/branch/');
         
         $id = new Zend_Form_Element_Hidden('id');
         
-        $name = $this->createElement('text', 'name');
-        $name->setRequired()->setLabel('name')
-        	 ->addErrorMessage('Обязательное поле');
-       	
-	$db = Zend_Db_Table_Abstract::getDefaultAdapter();
-        $options = $db->fetchPairs($db->select()->from('library', array('id', 'name'))->order('name'), 'id');
-        $library_id = $this->createElement('select', 'library_id');
-        $library_id->addMultiOption(0, 'Не выбрано');
-        $library_id->AddMultiOptions($options)
-                   ->setRequired()
-                   ->registerInArrayValidator();
-        $library_id->setValue(0);
+        $this->setDecorators(array(
+		    'FormElements', 
+		    array('TabContainer', array('id' => 'TabContainer', 'style' => 'width: 600px;')),
+		    'Form',
+		));
         
+        $this->setName('branch');
+        $this->setMethod('post');
+        $this->setAction('/branch/');
+        $this->setAttrib('id', 'branchForm');
+        
+		$form = new ZendX_JQuery_Form();
+		$form->setDecorators(array(
+		    'FormElements',
+		    array('HtmlTag', array('tag' => 'dl')),
+		    array('TabPane', array('jQueryParams' => array(
+		        'containerId' => 'branchForm',
+		        'title' => 'Филиал'
+		    ))),
+		    'Form'
+		));
+		
+		$id = Application_Form_Elements::getHidden('id');
+		
+        $name = $this->createElement('text', 'name');
+        $name->setRequired()->setLabel('Название')
+        	 ->addErrorMessage('Обязательное поле');
+
+        $library_id = new Zend_Form_Element_Hidden('library_id');
+        	 
         $lib_name = new ZendX_JQuery_Form_Element_AutoComplete(
                 'lib_name',
-                array('JQueryParams' => array( 'source' => array_values($options) ))
+                array('JQueryParams' => array( 
+                	'source' => '/library/autocomplete/',
+                	'select'=> new Zend_Json_Expr('function(event, ui){
+                		$("#library_id").val(ui.item.id);
+    				}')
+                ))
                 
         );
         $lib_name->setLabel('Библиотека');
         
-        $address = $this->createElement('text', 'address');
-        $address->setLabel('address');
+        $name_short = new Zend_Form_Element_Text('name_short');
+		$name_short->setLabel('Короткое имя: ');
+		
+		$address = new Zend_Form_Element_Text('address');
+		$address->setLabel('Адрес: ');
         
-        $short_name = $this->createElement('text', 'short_name');
-        $short_name->setLabel('короткое имя');
-        
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/branch/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/branch/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/branch/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/branch/add');
-        
-        $this->addElements(
-            compact('id', 'name', 'library_id', 'address', 'short_name', 'note', 'lib_name'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
+        $form->addElements(
+            compact('id', 'name', 'lib_name', 'library_id', 'address', 'short_name', 'note'
         ));
+        
+        $form->addElements(Application_Form_Elements::getStandardButtons('branch'));
+
+        $this->addSubForm($form, 'subform');
     }
 }

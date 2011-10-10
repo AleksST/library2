@@ -13,7 +13,7 @@
 <?php endforeach; ?>
 <?php 
 if(is_array($this->errors)) {
-    foreach ($this->errors as $name=>$error){
+    foreach ($this->errors['subform'] as $name=>$error){
         if(count($error)){
             echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
         }
@@ -22,11 +22,11 @@ if(is_array($this->errors)) {
 
 if(!empty($this->library)) {
     $this->form->setDefaults($this->library->toArray());
-    $this->form->removeElement('addBtn');
-    $this->form->removeElement('searchBtn');
+    $this->form->subform->removeElement('addBtn');
+    $this->form->subform->removeElement('searchBtn');
 } else {
-    $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('editBtn');
+    $this->form->subform->removeElement('deleteBtn');
+    $this->form->subform->removeElement('editBtn');
 }
 echo $this->form->render();
 ?>

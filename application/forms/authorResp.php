@@ -20,21 +20,9 @@ class Application_Form_AuthorResp extends Zend_Form
         $name_short = $this->createElement('text', 'name_short');
         $name_short->setLabel('сокращенная форма названия');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/author-resp/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/author-resp/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/author-resp/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/author-resp/add');
-        
         $this->addElements(
             compact('id', 'name', 'name_short', 'cod'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        $this->addElements(Application_Form_Elements::getStandartButtons('author-resp'))
     }
 }

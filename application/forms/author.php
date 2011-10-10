@@ -29,7 +29,6 @@ class Application_Form_Author extends Zend_Form
         $alternativename_id = $this->createElement('text', 'alternativename_id');
         $alternativename_id->setLabel('альтернативная форма имени');
         
-        
         $initials = $this->createElement('text', 'initials');
         $initials->setLabel('Иинциалы');
         
@@ -45,22 +44,11 @@ class Application_Form_Author extends Zend_Form
         $dates = $this->createElement('text', 'dates');
         $dates->setLabel('Даты');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/author/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/author/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/author/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/author/add');
-        
         $this->addElements(
             compact('id', 'surname', 'name', 'patronymic',  'initials', 'author_type_id', 'authorsign_id'
                     ,'alternativename_id', 'additions', 'number', 'organization', 'dates'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('author'));
     }
 }

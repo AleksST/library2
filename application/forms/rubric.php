@@ -29,22 +29,11 @@ class Application_Form_Rubric extends Zend_Form
         $note = $this->createElement('text', 'note');
         $note->setLabel('замечание');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/rubric/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/rubric/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/rubric/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/rubric/add');
-        
         $this->addElements(
             compact('id', 'name', 'rubric_type_id', 'thesaurus_id'
                     ,'alternative_id', 'parent_id', 'note'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('rubric'));
     }
 }

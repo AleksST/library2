@@ -35,21 +35,9 @@ class Application_Form_Seria extends Zend_Form
         $issn= $this->createElement('text', 'issn');
         $issn->setLabel('короткое имя');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/seria/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/seria/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/seria/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/seria/add');
-        
         $this->addElements(
             compact('id', 'name', 'publicher_id', 'order', 'name_parallel', 'note', 'issn'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        $this->addElements(Application_Form_Elements::getStandardButtons('seria'));
     }
 }

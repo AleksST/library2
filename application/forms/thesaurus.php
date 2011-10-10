@@ -14,21 +14,9 @@ class Application_Form_thesaurus extends Zend_Form
         $name->setRequired()->setLabel('name')
         	 ->addErrorMessage('Обязательное поле');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/thesaurus/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/thesaurus/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/thesaurus/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/thesaurus/add');
-        
         $this->addElements(
             compact('id', 'name'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        $this->addElements(Application_Form_Elements::getStandardButtons('thesaurus'));
     }
 }

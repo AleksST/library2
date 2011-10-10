@@ -1,4 +1,33 @@
-<?php foreach ($this->branches as $branch): ?>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#library_id").addEventListener('change', function(event){
+	//	$("#library_id").val(0);
+	});
+	alert('hi!');
+});
+</script>
+
+<?php
+if(is_array($this->errors )) {
+    foreach ($this->errors as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode(';', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->branch)) {
+    $this->form->setDefaults($this->branch->toArray());
+    $this->form->subform->removeElement('addBtn');
+    $this->form->subform->removeElement('searchBtn');
+} else {
+    $this->form->subform->removeElement('deleteBtn');
+    $this->form->subform->removeElement('editBtn');
+}
+echo $this->form->render();
+
+?><?php foreach ($this->branches as $branch): ?>
     <div>
         <?php if(is_array($this->libraries)): ?>
             <?php if ($this->libraries[$branch->id]):?>
@@ -12,70 +41,3 @@
         <a href="/branch/delete/?id=<?= $branch->id ?>">delete</a>
     </div>
 <?php endforeach; ?>
-<?php
-if(is_array($this->errors )) {
-    foreach ($this->errors as $name=>$error){
-        if(count($error)){
-            echo 'ошибка в поле ' . $name .': ' . implode(';', $error) . '<br />';
-        }
-    }
-}
-if(!empty($this->branch)) {
-    $this->form->setDefaults($this->branch->toArray());
-    $this->form->removeElement('addBtn');
-    $this->form->removeElement('searchBtn');
-} else {
-    $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('editBtn');
-}
-echo $this->form->render();
-
-$form = new ZendX_JQuery_Form();
-$subForm1 = new ZendX_JQuery_Form();
-$subForm2 = new ZendX_JQuery_Form();
-
-$form->setDecorators(array(
-    'FormElements', 
-    array('TabContainer', array('id' => 'TabContainer', 'style' => 'width: 600px;')),
-    'Form',
-));
-
-$subForm1->setDecorators(array(
-    'FormElements',
-    array('HtmlTag', array('tag' => 'dl')),
-    array('TabPane', array('jQueryParams' => array(
-        'containerId' => 'mainForm',
-        'title' => 'datePicker'
-    ))),
-    'Form'
-));
-
-$subForm2->setDecorators(array(
-    'FormElements',
-    array('HtmlTag', array('tag' => 'dl')),
-    array('TabPane', array('jQueryParams' => array(
-        'containerId' => 'mainForm',
-        'title' => 'autocomplite and slider'
-    ))),
-    'Form'
-));
-
-$subForm1->addElement('DatePicker', 'datePicker1', array(
-        'label' => 'datePicker: ',
-        'JQueryParams'=> array('dateFormat'=>'dd.mm.yyyy')
-));
-
-$subForm2->addElement('Slider', 'Slider1', array(
-        'label' => 'Slider: ',
-        'JQueryParams'=> array('defaultValue'=>'75')
-));
-
-$subForm1->addElement('AutoComplete', 'acl', array(
-            'label' => 'AutoComplete: ',
-            'JQueryParams'=> array('source'=>array('111', '222', '333', '444'))
-));
-
-$form->addSubForm($subForm1, 'subform1');
-$form->addSubForm($subForm2, 'subform2');
-
-//echo $form->render();

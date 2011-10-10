@@ -27,21 +27,10 @@ class Application_Form_Country extends Zend_Form
              ->setValidators(array(new Zend_Validate_StringLength(3)))
              ->addErrorMessage('Код должен быть 3хсимвольным');
         
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/country/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/country/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/country/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/country/add');
-        
         $this->addElements(
             compact('id', 'name', 'name_short', 'iso2', 'iso3'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('country'));
     }
 }

@@ -16,22 +16,11 @@ class Application_Form_RubricType extends Zend_Form
         
         $cod = $this->createElement('text', 'cod');
         $cod->setLabel('код поля типа рубрики по русмарк');
-        
-        $searchBtn = new Zend_Form_Element_Submit('Поиск');
-        $searchBtn->setAttrib('formaction', '/rubric-type/search');
-        
-        $deleteBtn = new Zend_Form_Element_Submit('Удалить');
-        $deleteBtn->setAttrib('formaction', '/rubric-type/delete');
-        
-        $editBtn = new Zend_Form_Element_Submit('Редактировать');
-        $editBtn->setAttrib('formaction', '/rubric-type/update');
-        
-        $addBtn = new Zend_Form_Element_Submit('Добавить');
-        $addBtn->setAttrib('formaction', '/rubric-type/add');
-        
+               
         $this->addElements(
             compact('id', 'name', 'cod'
-                    ,'searchBtn' , 'addBtn', 'editBtn',  'deleteBtn'
         ));
+        
+        $this->addElements(Application_Form_Elements::getStandardButtons('rubric-type'));
     }
 }
