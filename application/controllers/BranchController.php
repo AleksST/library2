@@ -62,6 +62,7 @@ class BranchController extends AppController
 
     public function searchAction()
     {
+        Zend_Debug::dump($this->getRequest()->getParams());
         if($this->getRequest()->isPost()){
             $search = $this->_getColumnsFromRequest();
             $this->view->branches = $this->_branch->getByCondition($search);         

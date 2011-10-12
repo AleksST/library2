@@ -1,21 +1,13 @@
 <script type="text/javascript">
 // library name and id validation
 $(document).ready(function() {
-	$("#library_name").change(function(){
-		if( (typeof(library) === "undefined") || (library.value != this.value) ){
-			//todo: show warning and add library button
-			$("#library_id").val(0);
-		}
-	});
+    $("#library_name").change(function(){
+        if( (typeof(library) === "undefined") || (library.value != this.value) ){
+            //todo: show warning and add library button
+            $("#library_id").val(0);
+        }
+    });
 });
-function addHeaderSet() {
-	var val=1;
-    $("fieldset[id^=header_set_]").each(function(){
-    	id = parseInt(this.id.substring(this.id.lastIndexOf("_")+1)); 
-    	val=Math.max(val,id+1);
-	});
-    $("div.ui-tabs-panel:has(fieldset#header_set)").append($("#header_set").clone().attr("id","header_set_"+val));
-}
 </script>
 
 <?php
@@ -28,12 +20,16 @@ if(is_array($this->errors )) {
 }
 
 if(!empty($this->branch)) {
-    $this->form->subform->setDefaults($this->branch);
-    $this->form->subform->removeElement('addBtn');
-    $this->form->subform->removeElement('searchBtn');
+    foreach ($this->form->getSubForms() as $sform) {
+        $sform->setDefaults($this->branch);
+        $sform->removeElement('addBtn');
+        $sform->removeElement('searchBtn');
+    }
 } else {
-    $this->form->subform->removeElement('deleteBtn');
-    $this->form->subform->removeElement('editBtn');
+    foreach ($this->form->getSubForms() as $sform) {
+        $sform->removeElement('deleteBtn');
+        $sform->removeElement('editBtn');
+    } 
 }
 echo $this->form->render();
 
