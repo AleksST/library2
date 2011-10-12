@@ -44,13 +44,8 @@ class BranchController extends AppController
                 $this->view->errors = $this->_form->getErrors();
             }
         }
-        $branch = $this->_branch->getRow($id);
-        $library = $this->_branch->getLibrary($branch);
-        $branch = $branch->toArray();
-        $branch['library_name'] = $library->name;
-        $this->view->branch = $branch;
-        Zend_Debug::dump($branch);
-                
+        
+        $this->view->branch = $this->_branch->getFullBranch($id);
         $this->_forward('index');
     }
 

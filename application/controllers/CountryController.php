@@ -1,12 +1,12 @@
 <?php
 require_once 'AppController.php';
+
 /**
  * CountryController
  * 
  * @author Aleks S Tushin
  * @version 
  */
-
 class CountryController extends AppController
 {
     protected $_country;

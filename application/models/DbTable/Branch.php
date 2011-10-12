@@ -23,6 +23,20 @@ class Application_Model_DbTable_Branch extends Application_Model_ApplicationTabl
         return false;
     }
     
+    /**
+     * 
+     * Return branch with relateion tables (library)
+     * @param array $id - branch id
+     */
+    public function getFullBranch($id)
+    {
+    	$branch = $this->getRow($id);
+        $library = $this->getLibrary($branch);
+        $branch = $branch->toArray();
+        $branch['library_name'] = $library->name;
+        return $branch;
+    }
+    
     public function getByCondition($search)
     {
         $select = $this->select();

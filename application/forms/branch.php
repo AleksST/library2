@@ -63,5 +63,8 @@ class Application_Form_Branch extends ZendX_JQuery_Form
         $form->addElements(Application_Form_Elements::getStandardButtons('branch'));
 
         $this->addSubForm($form, 'subform');
+        //$this->addSubForm(Application_Form_Elements::getFieldsetHeader('branchForm', 'Заглавия'), 'headerSet');
+        //$this->addSubForm(Application_Form_Elements::getFieldsetEdition('branchForm', 'Издательства'), 'editionSet');
+        $this->addSubForm(Application_Form_Elements::getTab('branchForm', 'TEST'), 'sets');
     }
 }

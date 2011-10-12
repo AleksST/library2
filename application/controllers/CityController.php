@@ -1,12 +1,12 @@
 <?php
 require_once 'AppController.php';
+
 /**
  * CityController
  * 
  * @author Aleks S Tushin
  * @version 
  */
-
 class CityController extends AppController
 {
     protected $_city;

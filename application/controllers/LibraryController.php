@@ -84,4 +84,3 @@ class LibraryController extends AppController
     }
 
 }
-
