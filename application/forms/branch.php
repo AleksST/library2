@@ -10,10 +10,10 @@ class Application_Form_Branch extends ZendX_JQuery_Form
             'Form',
         ));
         
-        $this->setName('branch');
-        $this->setMethod('post');
-        $this->setAction('/branch/');
-        $this->setAttrib('id', 'branchForm');
+        $this->setName('branch')
+             ->setMethod('post')
+             ->setAction('/branch/')
+             ->setAttrib('id', 'branchForm');
         
         $form = new ZendX_JQuery_Form();
         $form->setDecorators(array(
@@ -26,14 +26,42 @@ class Application_Form_Branch extends ZendX_JQuery_Form
             'Form'
         ));
 		
-	$id = Application_Form_Elements::getHidden('id');
+	    // add standard form elements        
+        $form->addElements(self::getStandardElements());
+        
+        $form->addDisplayGroup(
+                    Application_Form_Elements::getMultivalueElement('short_name', 'Короткое имя'), 
+                    'short_name_group',
+                    array('disableLoadDefaultDecorators' => true));
+        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
+        
+        // add standard buttons
+        $form->addElements(Application_Form_Elements::getStandardButtons('branch'));
+        
+        $this->addSubForm($form, 'subform');
+        
+        //@todo this for test
+        $jqParams   = array('containerId' => 'branchForm', 'title' => 'Вкладка');
+        $fieldsets  = array('header', 'edition');
+        $controllerName = 'branch';
+        $this->addSubForm(
+                Application_Form_Elements::getTab($jqParams, $fieldsets, $controllerName), 
+                'subform2'
+        );
+    }
+    
+    public static function getStandardElements()
+    {
+        $id = Application_Form_Elements::getHidden('id');
 		
-        $name = $this->createElement('text', 'name');
-        $name->setRequired()->setLabel('Название')
+        $name = new Zend_Form_Element_Text('name');
+        $name->setRequired()
+             ->setLabel('Название')
         	 ->addErrorMessage('Обязательное поле');
 
         $library_id = Application_Form_Elements::getHidden('library_id');
-        	 
+        
+        // js cod here use var "library" in views/scripts/branch/index.phtml
         $library_name = new ZendX_JQuery_Form_Element_AutoComplete(
             'library_name',
             array('JQueryParams' => array( 
@@ -42,30 +70,12 @@ class Application_Form_Branch extends ZendX_JQuery_Form
                     $("#library_id").val(ui.item.id);
                     library = ui.item;}')
             ))
-                
         );
         $library_name->setLabel('Библиотека');
-        
-        $name_short = new Zend_Form_Element_Text('name_short');
-        $name_short->setLabel('Короткое имя: ');
 
         $address = new Zend_Form_Element_Text('address');
         $address->setLabel('Адрес: ');
         
-        $form->addElements(
-            compact('id', 'name', 'library_name', 'library_id', 'address', 'short_name', 'note'
-        ));
-        
-        $form->addElements(Application_Form_Elements::getStandardButtons('branch'));
-
-        $this->addSubForm($form, 'subform');
-        
-        $jqParams   = array('containerId' => 'branchForm', 'title' => 'Вкладка');
-        $fieldsets  = array('header', 'edition');
-        $controllerName = 'branch';
-        $this->addSubForm(
-                Application_Form_Elements::getTab($jqParams, $fieldsets, $controllerName), 
-                'subform2'
-        );
+        return compact('id', 'name', 'library_name', 'library_id', 'address');
     }
 }

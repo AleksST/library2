@@ -39,6 +39,24 @@ class Application_Form_Elements
         $elem->setDecorators(array(array('ViewHelper')));
         return $elem;
     }
+    
+    public static function getMultivalueElement($name, $label)
+    {
+        $text = new Zend_Form_Element_Text($name, array('disableLoadDefaultDecorators' => true));
+        $text->setLabel($label)->setIsArray(true)->setDecorators(array(array('ViewHelper'),'Label'));
+        
+        $add = new Zend_Form_Element_Button('add' . ucfirst($name), array('disableLoadDefaultDecorators' => true));
+        $add->setAttrib('type', 'button')->setLabel("+")
+            ->setAttrib('onclick', self::getJsAddElement())
+            ->setDecorators(array(array('ViewHelper')));
+        
+        $remove = new Zend_Form_Element_Button('remove' . ucfirst($name), array('disableLoadDefaultDecorators' => true));
+        $remove->setAttrib('type', 'button')->setLabel("-")
+            ->setAttrib('onclick', self::getJsRemoveElement())
+            ->setDecorators(array(array('ViewHelper')));
+        
+        return array($name=>$text, 'addElementBtn'=>$add, 'removeElementBtn'=>$remove);
+    }
 
     /**
      * 
@@ -48,7 +66,7 @@ class Application_Form_Elements
      */
     public function getFieldsetHeader($name)
     {
-
+    
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $header_types = $db->fetchAll($db->select()->from('header_type', array('id', 'name')));
 
@@ -135,7 +153,7 @@ class Application_Form_Elements
         return compact('add', 'remove');
     }
 
-    private static function getJsAddFieldset($fieldsetName)
+    private static function getJsAddFieldset()
     {
         return 'fset = $(this).parents("fieldset").first(); fset.after(fset.clone());';
     }
@@ -143,5 +161,15 @@ class Application_Form_Elements
     private static function getJsRemoveFieldset()
     {
         return '$(this).parents("fieldset").first().remove();';
+    }
+    
+    private static function getJsAddElement()
+    {
+        return self::getJsAddFieldset();
+    }
+    
+    private static function getJsRemoveElement()
+    {
+        return self::getJsRemoveFieldset();
     }
 }

@@ -5,7 +5,7 @@ require_once 'AppController.php';
  * 
  * @author Aleks S Tushin
  * @version 
- */
+ */ 
 
 class AuthorController extends AppController
 {
