@@ -11,7 +11,7 @@ class LanguageController extends AppController
 {
     protected $_language;
     
-    protected $_columns = array ('name', 'name_short', 'iso2', 'iso3');
+    protected $_columns = array ('name', 'name_short', 'eng', 'iso3');
 
 
     public function init()

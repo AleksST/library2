@@ -28,7 +28,7 @@ if(!empty($this->branch)) {
 } else {
     foreach ($this->form->getSubForms() as $sform) {
         $sform->removeElement('deleteBtn');
-        $sform->removeElement('editBtn');
+        $sform->removeElement('updateBtn');
     } 
 }
 echo $this->form->render();

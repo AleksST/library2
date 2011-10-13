@@ -3,7 +3,7 @@ class Application_Form_Elements
 {
     /**
      * 
-     * Standart CRUD buttons for add, delete, update, search 
+     * Standard CRUD buttons for add, delete, update, search 
      * controller actions
      * @param string $name - controller name
      * @return array of Zend_Form_Element_Submit objs
@@ -14,7 +14,7 @@ class Application_Form_Elements
         $buttons = array(
             'search' => 'Поиск', 
             'add'    => 'Добавить',
-            'edit'   => 'Редактировать',
+            'update'   => 'Редактировать',
             'delete' => 'Удалить'
         );
         
@@ -29,7 +29,7 @@ class Application_Form_Elements
     }
 
     /**
-     * Standart hidden form element
+     * Standard hidden form element
      * @return obj Zend_Form_Element_Hidden
      * @param string $id - html element id
      */
@@ -64,7 +64,7 @@ class Application_Form_Elements
      * @param string $name - this fieldset html id
      * @return array of form elements
      */
-    public function getFieldsetHeader($name)
+    public static function getFieldsetHeader($name)
     {
     
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();

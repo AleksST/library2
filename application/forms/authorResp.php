@@ -23,6 +23,6 @@ class Application_Form_AuthorResp extends Zend_Form
         $this->addElements(
             compact('id', 'name', 'name_short', 'cod'
         ));
-        $this->addElements(Application_Form_Elements::getStandartButtons('author-resp'));
+        $this->addElements(Application_Form_Elements::getStandardButtons('author-resp'));
     }
 }

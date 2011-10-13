@@ -1,12 +1,3 @@
-<?php foreach ($this->authorResps as $authorResp): ?>
-    <div>
-        <label> ID : <?= $authorResp->id; ?> </label>
-        <label> NAME : <?= $authorResp->name; ?> </label>
-        <label> SHORT : <?= $authorResp->name_short; ?> </label>
-        <a href="/author-resp/update/?id=<?= $authorResp->id; ?>">редактировать</a>
-    </div>
-<?php endforeach; ?>
-
 <?php 
 if(is_array($this->errors)) {
     foreach ($this->errors as $name=>$error){
@@ -22,6 +13,15 @@ if(!empty($this->authorResp)) {
     $this->form->removeElement('searchBtn');
 } else {
     $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('editBtn');
+    $this->form->removeElement('updateBtn');
 }
 echo $this->form->render();
+
+?><?php foreach ($this->authorResps as $authorResp): ?>
+    <div>
+        <label> ID : <?= $authorResp->id; ?> </label>
+        <label> NAME : <?= $authorResp->name; ?> </label>
+        <label> SHORT : <?= $authorResp->name_short; ?> </label>
+        <a href="/author-resp/update/?id=<?= $authorResp->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>

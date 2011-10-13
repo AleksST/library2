@@ -17,9 +17,8 @@ class Application_Form_language extends Zend_Form
         $name_short = $this->createElement('text', 'name_short');
         $name_short->setLabel('короткое имя');
         
-        $iso2 = $this->createElement('text', 'iso2');
-        $iso2->setLabel('код ISO 2 символа')
-             ->setValidators(array(new Zend_Validate_StringLength(2)))
+        $eng = $this->createElement('text', 'eng');
+        $eng->setLabel('Международное название')
              ->addErrorMessage('Код должен быть 2хсимвольным');
         
         $iso3 = $this->createElement('text', 'iso3');
@@ -28,7 +27,7 @@ class Application_Form_language extends Zend_Form
              ->addErrorMessage('Код должен быть 3хсимвольным');
         
         $this->addElements(
-            compact('id', 'name', 'name_short', 'iso2', 'iso3'
+            compact('id', 'name', 'name_short', 'eng', 'iso3'
         ));
         
         $this->addElements(Application_Form_Elements::getStandardButtons('language'));

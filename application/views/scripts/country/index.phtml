@@ -1,14 +1,3 @@
-<?php foreach ($this->countries as $country): ?>
-    <div>
-        <label> NAME : <?= $country->name; ?> </label>
-        <label> ID : <?= $country->id; ?> </label>
-        <label> short : <?= $country->name_short; ?> </label>
-        <label> ISO2 : <?= $country->iso2; ?> </label>
-        <label> ISO3 : <?= $country->iso3; ?> </label>
-        <a href="/country/update/?id=<?= $country->id; ?>">редактировать</a>
-    </div>
-<?php endforeach; ?>
-
 <?php 
 if(is_array($this->errors)) {
     foreach ($this->errors as $name=>$error){
@@ -23,6 +12,16 @@ if(!empty($this->country)) {
     $this->form->removeElement('searchBtn');
 } else {
     $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('editBtn');
+    $this->form->removeElement('updateBtn');
 }
 echo $this->form->render();
+?><?php foreach ($this->countries as $country): ?>
+    <div>
+        <label> NAME : <?= $country->name; ?> </label>
+        <label> ID : <?= $country->id; ?> </label>
+        <label> short : <?= $country->name_short; ?> </label>
+        <label> ISO2 : <?= $country->iso2; ?> </label>
+        <label> ISO3 : <?= $country->iso3; ?> </label>
+        <a href="/country/update/?id=<?= $country->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>

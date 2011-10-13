@@ -1,14 +1,3 @@
-<?php foreach ($this->languages as $language): ?>
-    <div>
-        <label> NAME : <?= $language->name; ?> </label>
-        <label> ID : <?= $language->id; ?> </label>
-        <label> short : <?= $language->name_short; ?> </label>
-        <label> ISO2 : <?= $language->iso2; ?> </label>
-        <label> ISO3 : <?= $language->iso3; ?> </label>
-        <a href="/language/update/?id=<?= $language->id; ?>">редактировать</a>
-    </div>
-<?php endforeach; ?>
-
 <?php 
 if(is_array($this->errors)) {
     foreach ($this->errors as $name=>$error){
@@ -17,12 +6,24 @@ if(is_array($this->errors)) {
         }
     }
 }
+
 if(!empty($this->language)) {
     $this->form->setDefaults($this->language->toArray());
     $this->form->removeElement('addBtn');
     $this->form->removeElement('searchBtn');
 } else {
     $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('editBtn');
+    $this->form->removeElement('updateBtn');
 }
 echo $this->form->render();
+
+?><?php foreach ($this->languages as $language): ?>
+    <div>
+        <label> NAME : <?= $language->name; ?> </label>
+        <label> ID : <?= $language->id; ?> </label>
+        <label> short : <?= $language->name_short; ?> </label>
+        <label> ENG : <?= $language->eng; ?> </label>
+        <label> ISO3 : <?= $language->iso3; ?> </label>
+        <a href="/language/update/?id=<?= $language->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>
