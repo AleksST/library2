@@ -11,7 +11,7 @@ class IndexTypeController extends AppController
 {
     protected $_indexType;
     
-    protected $_columns = array ( 'name', 'cod', 'name_short');
+    protected $_columns = array ( 'name', 'cod', 'edition', 'sys_cod');
 
     public function init()
     {

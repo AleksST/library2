@@ -14,7 +14,7 @@ class Application_Form_Elements
         $buttons = array(
             'search' => 'Поиск', 
             'add'    => 'Добавить',
-            'update'   => 'Редактировать',
+            'update' => 'Редактировать',
             'delete' => 'Удалить'
         );
         
@@ -55,28 +55,40 @@ class Application_Form_Elements
             ->setAttrib('onclick', self::getJsRemoveElement())
             ->setDecorators(array(array('ViewHelper')));
         
-        return array($name=>$text, 'addElementBtn'=>$add, 'removeElementBtn'=>$remove);
+        return array($name=>$text, 'add' . $name . 'Btn'=>$add, 'remove' . $name . 'Btn'=>$remove);
     }
 
     /**
      * 
      * Return form with headers fields
      * @param string $name - this fieldset html id
-     * @return array of form elements
+     * @return Zend_Form
      */
     public static function getFieldsetHeader($name)
     {
     
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $header_types = $db->fetchAll($db->select()->from('header_type', array('id', 'name')));
-
+        $form = new ZendX_JQuery_Form();
+        $form->setDecorators(array(
+            'FormElements',
+            'Form',
+            'Fieldset'
+        ));
+        
+        $form->setLegend('Заглавия');
         foreach ($header_types as $header_type){
-            $text = new Zend_Form_Element_Text('header_type_' . $header_type['id']);
-            $text->setLabel($header_type['name'])->setIsArray(true);
-            $elements[] = $text;
+            $form->addDisplayGroup(
+                    self::getMultivalueElement('header_type_' . $header_type['id'], $header_type['name']), 
+                    strtolower('header_type_' . $header_type['id']) .'Set',
+                    array('disableLoadDefaultDecorators' => true, 
+                          'id' => 'header_type_' . $header_type['id'] . 'Form'));
         }
         
-        return array_merge($elements, self::getFieldsetButtons($name . 'Set'));
+        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
+      //$form->addElements(self::getFieldsetButtons($name . 'Set'));
+        
+        return $form;
     }
 
     /**
@@ -87,17 +99,35 @@ class Application_Form_Elements
      */
     public static function getFieldsetEdition($name)
     {
-        $db = Zend_Db_Table_Abstract::getDefaultAdapter();
-        //@todo rewrite for editions: temp for test
-        $editions = $db->fetchAll($db->select()->from('header_type', array('id', 'name')));
-
-        foreach ($editions as $edition){
-            $text = new Zend_Form_Element_Text('edition');
-            $text->setLabel('Издание')->setIsArray(true);
-            $elements[] = $text;
-        }
+        $form = new ZendX_JQuery_Form();
+        $form->setDecorators(array(
+            'FormElements',
+            'Form',
+            'Fieldset'
+        ));
         
-        return array_merge($elements, self::getFieldsetButtons($name . 'Set'));
+        $form->setLegend('Издание');
+        $text = new Zend_Form_Element_Text($name, array('disableLoadDefaultDecorators' => true));
+        $text->setLabel('Сведения об издании')
+             ->setDecorators(array(array('ViewHelper'),'Label'));
+        $form->addElement($text);
+        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
+        $form->addElements(self::getFieldsetButtons($name . 'Set'));
+        
+        return $form;
+    }
+    
+    public static function getFieldsetAuthor()
+    {
+        $form = new ZendX_JQuery_Form();
+        $form->setDecorators(array(
+            'FormElements',
+            'Form',
+            'Fieldset'
+        ));
+        
+        $form->setLegend('Заглавия'); 
+        return $form;
     }
 
     /**
@@ -113,7 +143,7 @@ class Application_Form_Elements
         $form = new ZendX_JQuery_Form();
         $form->setDecorators(array(
             'FormElements',
-            array('HtmlTag', array('tag' => 'fieldset','class' => 'tab', 'label'=>'tab')),
+            array('HtmlTag', array('tag' => 'fieldset','class' => 'tab')),
             array('TabPane', array('jQueryParams' => $jqParams)),
             'Form'
         ));
@@ -121,14 +151,11 @@ class Application_Form_Elements
         foreach ($fieldsets as $fieldsetName){
             $methodName = 'getFieldset' . ucfirst($fieldsetName); 
             if(method_exists('Application_Form_Elements', $methodName)){
-                $form->addDisplayGroup(
-                    self::$methodName($fieldsetName), 
-                    strtolower($fieldsetName) .'Set',
-                    array('disableLoadDefaultDecorators' => true));
+                $form->addSubForm( self::$methodName($fieldsetName), $fieldsetName);
             }
         }
         
-        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
+//        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
         $form->addElements(self::getStandardButtons($controllerName));
         return $form;
     }

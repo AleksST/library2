@@ -1,17 +1,3 @@
-<?php foreach ($this->cities as $city): ?>
-    <div>
-        <?php if(is_array($this->countries)): ?>
-            <?php if ($this->countries[$city->id]):?>
-              <label> Country: <?= $this->countries[$city->id]->name; ?> </label>
-            <?php endif;?>
-        <?php endif;?>        
-        <label> NAME : <?= $city->name; ?> </label>
-        <label> ID : <?= $city->id; ?> </label>
-        <label> Country_ID : <?= $city->country_id; ?> </label>
-        <a href="/city/update/?id=<?= $city->id ?>">update</a>
-        <a href="/city/delete/?id=<?= $city->id ?>">delete</a>
-    </div>
-<?php endforeach; ?>
 <?php
 if(is_array($this->errors )) {
     foreach ($this->errors as $name=>$error){
@@ -29,3 +15,18 @@ if(!empty($this->city)) {
     $this->form->removeElement('updateBtn');
 }
 echo $this->form->render();
+
+?><?php foreach ($this->cities as $city): ?>
+    <div>
+        <?php if(is_array($this->countries)): ?>
+            <?php if ($this->countries[$city->id]):?>
+              <label> Country: <?= $this->countries[$city->id]->name; ?> </label>
+            <?php endif;?>
+        <?php endif;?>        
+        <label> NAME : <?= $city->name; ?> </label>
+        <label> ID : <?= $city->id; ?> </label>
+        <label> Country_ID : <?= $city->country_id; ?> </label>
+        <a href="/city/update/?id=<?= $city->id ?>">update</a>
+        <a href="/city/delete/?id=<?= $city->id ?>">delete</a>
+    </div>
+<?php endforeach; ?>

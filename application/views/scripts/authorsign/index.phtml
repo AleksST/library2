@@ -1,11 +1,3 @@
-<?php foreach ($this->authorsigns as $authorsign): ?>
-    <div>
-        <label> ID : <?= $authorsign->id; ?> </label>
-        <label> NAME : <?= $authorsign->name; ?> </label>
-        <a href="/authorsign/update/?id=<?= $authorsign->id; ?>">редактировать</a>
-    </div>
-<?php endforeach; ?>
-
 <?php 
 if(is_array($this->errors)) {
     foreach ($this->errors as $name=>$error){
@@ -24,3 +16,11 @@ if(!empty($this->authorsign)) {
     $this->form->removeElement('updateBtn');
 }
 echo $this->form->render();
+?><?php foreach ($this->authorsigns as $authorsign): ?>
+    <div>
+        <label> ID : <?= $authorsign->id; ?> </label>
+        <label> AUTH : <?= $authorsign->author; ?> </label>
+        <label> SIGN : <?= $authorsign->sign; ?> </label>
+        <a href="/authorsign/update/?id=<?= $authorsign->id; ?>">редактировать</a>
+    </div>
+<?php endforeach; ?>

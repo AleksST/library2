@@ -56,9 +56,12 @@ class ItemController extends AppController
     public function searchAction()
     {
         if($this->getRequest()->isPost()){
-            $search = array_diff($this->_getColumnsFromRequest(), array('',null));
+            $search = array_diff($this->_request->getParams(), array('',null));
             $this->view->items = $this->_item->getByCondition($search);
         }
+        
+        Zend_Debug::dump($this->_request->getParams());
+        Zend_Debug::dump($search);
     }
 
     public function addAction()

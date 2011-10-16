@@ -32,7 +32,7 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
     public function update($data, $where) 
     {
         $data['modified'] = $this->_now;
-        parent::update($data, $where);
+        return parent::update($data, $where);
     }
 
     public function insert($data) 
@@ -42,12 +42,12 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
         }
         $data['created']  = $this->_now;
         $data['modified'] = $this->_now;
-        parent::insert($data);
+        return parent::insert($data);
     }
 
     public function delete($where) 
     {
-        parent::delete($where);
+        return parent::delete($where);
     }
     
     public function countChild(Zend_Db_Table_Row_Abstract $row, $childName = '')
@@ -94,7 +94,7 @@ class Application_Model_ApplicationTable extends Zend_Db_Table_Abstract {
     
     public function getAll() 
     {
-        $select = $this->select();
+        $select = $this->select()->limit(100);
         return $this->fetchAll($select);
     }
     

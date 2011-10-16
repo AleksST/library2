@@ -11,7 +11,7 @@ class AuthorsignController extends AppController
 {
     protected $_authorsign;
     
-    protected $_columns = array ( 'name', 'sign');
+    protected $_columns = array ( 'author', 'sign');
 
     public function init()
     {

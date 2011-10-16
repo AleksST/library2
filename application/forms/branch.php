@@ -26,7 +26,7 @@ class Application_Form_Branch extends ZendX_JQuery_Form
             'Form'
         ));
 		
-	    // add standard form elements        
+        // add standard form elements        
         $form->addElements(self::getStandardElements());
         
         $form->addDisplayGroup(

@@ -10,15 +10,15 @@ class Application_Form_Authorsign extends Zend_Form
         
         $id = new Zend_Form_Element_Hidden('id');
         
-        $name = $this->createElement('text', 'name');
-        $name->setRequired()->setLabel('начало фамилии/названия')
+        $author = $this->createElement('text', 'author');
+        $author->setRequired()->setLabel('начало фамилии/названия')
              ->addErrorMessage('Обязательное поле');
         
         $sign = $this->createElement('text', 'sign');
         $sign->setLabel('авторский знак');
        
         $this->addElements(
-            compact('id', 'name', 'sign'
+            compact('id', 'author', 'sign'
         ));
         
         $this->addElements(Application_Form_Elements::getStandardButtons('authorsign'));

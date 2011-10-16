@@ -17,8 +17,14 @@ class Application_Form_IndexType extends Zend_Form
         $cod = $this->createElement('text', 'cod');
         $cod->setLabel('код индекса по русмарк');
         
+        $edition = $this->createElement('text', 'edition');
+        $edition->setLabel('Версия издания');
+        
+        $sys_cod = $this->createElement('text', 'sys_cod');
+        $sys_cod->setLabel('Код системы');
+        
         $this->addElements(
-            compact('id', 'name', 'cod'
+            compact('id', 'name', 'cod' , 'sys_cod', 'edition'
         ));
         $this->addElements(Application_Form_Elements::getStandardButtons('index-type'));
     }
