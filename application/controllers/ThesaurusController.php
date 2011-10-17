@@ -75,9 +75,9 @@ class ThesaurusController extends AppController
     public function autocompleteAction()
     {
     	$select = $this->_thesaurus->select();
-    	
-    	$select->where('name like (?)', $this->getRequest()->getParam('term') . '%')
-    		   ->order('name');
+    	$term = str_replace('*', '%', $this->getRequest()->getParam('term'));
+    	$select->where('name like (?)', $term  . '%')
+               ->order('name');
     	$res = $this->_thesaurus->fetchAll($select)->toArray();
     	foreach ($res as $i=>$row){
     		$res2[$i]['value'] = $row['name'];

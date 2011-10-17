@@ -7,19 +7,24 @@
 <?php endforeach; ?>
 
 <?php 
-if(is_array($this->errors)) {
-    foreach ($this->errors as $name=>$error){
-        if(count($error)){
-            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
-        }
-    }
-}
+//if(is_array($this->errors)) {
+//    foreach ($this->errors as $name=>$error){
+//        if(count($error)){
+//            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+//        }
+//    }
+//}
 if(!empty($this->thesaurus)) {
-    $this->form->setDefaults($this->thesaurus->toArray());
-    $this->form->removeElement('addBtn');
-    $this->form->removeElement('searchBtn');
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->setDefaults($this->thesaurus->toArray());
+        $sform->removeElement('addBtn');
+        $sform->removeElement('searchBtn');
+    }
 } else {
-    $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('updateBtn');
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->removeElement('deleteBtn');
+        $sform->removeElement('updateBtn');
+        $sform->removeElement('indexBtn');
+    }
 }
 echo $this->form->render();

@@ -1,3 +1,43 @@
+<script type="text/javascript">
+function clone_fieldset(item) {
+    fset = $(item).parents("fieldset").first();
+    rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
+    val = rep+1;
+    $("fieldset[id^='fieldset-library']").each(function(){
+        id = $(this).attr("id");
+        val = Math.max(val, parseInt(id.substring(id.indexOf("_")+1))+1);
+    });
+    new_fset = fset.clone();
+    new_fset.find(":input").each(function(){
+      $(this).attr("name", $(this).attr("name").replace('['+rep+']', '['+ val+']'));
+    });
+    new_fset.attr("id", new_fset.attr("id").replace('_'+rep, '_'+ val));
+    fset.after(new_fset);
+}
+</script>
+<?php 
+if(is_array($this->errors)) {
+    foreach ($this->errors['subform'] as $name=>$error){
+        if(count($error)){
+            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+        }
+    }
+}
+
+if(!empty($this->library)) {
+    $this->form->setDefaults($this->library->toArray());
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->removeElement('addBtn');
+        $sform->removeElement('searchBtn');
+    }
+} else {
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->removeElement('deleteBtn');
+        $sform->removeElement('updateBtn');
+    }
+}
+echo $this->form->render();
+?>
 <?php foreach ($this->libraries as $library): ?>
     <div>
         <label> NAME : <?= $library->name; ?> </label>
@@ -11,23 +51,3 @@
         <?php endforeach; ?>
     </div>
 <?php endforeach; ?>
-
-<?php 
-if(is_array($this->errors)) {
-    foreach ($this->errors['subform'] as $name=>$error){
-        if(count($error)){
-            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
-        }
-    }
-}
-
-if(!empty($this->library)) {
-    $this->form->setDefaults($this->library->toArray());
-    $this->form->subform->removeElement('addBtn');
-    $this->form->subform->removeElement('searchBtn');
-} else {
-    $this->form->subform->removeElement('deleteBtn');
-    $this->form->subform->removeElement('updateBtn');
-}
-echo $this->form->render();
-?>

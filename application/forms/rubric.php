@@ -21,7 +21,7 @@ class Application_Form_Rubric extends ZendX_JQuery_Form
             array('HtmlTag', array('tag' => 'dl')),
             array('TabPane', array('jQueryParams' => array(
                 'containerId' => 'rubricForm',
-                'title' => 'Филиал'
+                'title' => 'Рубрика'
             ))),
             'Form'
         ));
@@ -37,19 +37,8 @@ class Application_Form_Rubric extends ZendX_JQuery_Form
     {
         $id = Application_Form_Elements::getHidden('id');
         
-        $thesaurus_id = Application_Form_Elements::getHidden('thesaurus_id');
-        
-        // js cod here use var "library" in views/scripts/branch/index.phtml
-        $thesaurus_name = new ZendX_JQuery_Form_Element_AutoComplete(
-            'thesaurus_name',
-            array('JQueryParams' => array( 
-                'source' => '/thesaurus/autocomplete/',
-                'select'=> new Zend_Json_Expr('function(event, ui){
-                    $("#thesaurus_id").val(ui.item.id);
-                    thesaurus = ui.item;}')
-            ))
-        );
-        $thesaurus_name->setLabel('Тезаурус');
+        list($thesaurus_id, $thesaurus_name) = Application_Form_Elements
+              ::getAutocompleteElement('thesaurus_id', 'thesaurus_name', 'thesaurus', 'Тезаурус');
          
         $name = new Zend_Form_Element_Text('name');
         $name->setRequired()->setLabel('Название')
@@ -58,16 +47,15 @@ class Application_Form_Rubric extends ZendX_JQuery_Form
         $rubric_type_id = new Zend_Form_Element_Text('rubric_type_id');
         $rubric_type_id->setLabel('тип рубрики (срп)');
         
-        $alternative_id = new Zend_Form_Element_Text('alternative_id');
-        $alternative_id->setLabel('альтернативная форма имени');
-        
-        $parent_id = new Zend_Form_Element_Text('parent_id');
-        $parent_id->setLabel('родительская рубрика');
+        list($alternative_id, $alternative_name) = Application_Form_Elements
+             ::getAutocompleteElement('alternative_id', 'alternative_name', 'rubric', 'Альтернативная рубрика');
+        list($parent_id, $parent_name) = Application_Form_Elements
+             ::getAutocompleteElement('parent_id', 'parent_name', 'rubric', 'Родительская рубрика');
         
         $note = new Zend_Form_Element_Text('note');
         $note->setLabel('замечание');
         
-        return compact('id', 'name', 'rubric_type_id', 'thesaurus_id', 'thesaurus_name'
-                    ,'alternative_id', 'parent_id', 'note');
+        return compact('id', 'name', 'parent_id', 'parent_name', 'rubric_type_id', 
+             'thesaurus_id', 'thesaurus_name' ,'alternative_id', 'alternative_name', 'note');
     }
 }

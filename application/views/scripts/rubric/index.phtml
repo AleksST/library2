@@ -7,20 +7,29 @@
 <?php endforeach; ?>
 
 <?php 
-if(is_array($this->errors)) {
-    foreach ($this->errors as $name=>$error){
-        if(count($error)){
-            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
-        }
-    }
+//if(is_array($this->errors)) {
+//    foreach ($this->errors as $name=>$error){
+//        if(count($error)){
+//            echo 'ошибка в поле ' . $name .': ' . implode('; ', $error) . '<br />';
+//        }
+//    }
+//}
+if(!empty($this->rubric)) {
+   $data = $this->rubric->toArray();
+   $data['thesaurus_name'] = $this->thesaurus->name;
 }
 
 if(!empty($this->rubric)) {
-    $this->form->setDefaults($this->rubric->toArray());
-    $this->form->removeElement('addBtn');
-    $this->form->removeElement('searchBtn');
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->setDefaults($data);
+        $sform->removeElement('addBtn');
+        $sform->removeElement('searchBtn');
+    }
 } else {
-    $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('updateBtn');
+    foreach ($this->form->getSubForms() as $sform){
+        $sform->removeElement('deleteBtn');
+        $sform->removeElement('updateBtn');
+        $sform->removeElement('indexBtn');
+    }
 }
 echo $this->form->render();

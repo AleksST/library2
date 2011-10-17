@@ -12,7 +12,7 @@ class RubricController extends AppController
     protected $_rubric;
     
     protected $_columns = array ('name', 'rubric_type_id', 'thesaurus_id',
-    							'alternative_id', 'parent_id', 'note');
+    				'alternative_id', 'parent_id', 'note');
 
     public function init()
     {
@@ -39,6 +39,7 @@ class RubricController extends AppController
             }
         }
         $this->view->rubric = $this->_rubric->getRow($id);
+        $this->view->thesaurus = $this->_rubric->getThesaurus($this->view->rubric);
         $this->_forward('index');
     }
 
@@ -70,5 +71,19 @@ class RubricController extends AppController
         $this->view->errors = $this->_form->getErrors();
         $this->_forward('index');
     }
-
+    
+    //@todo: bad style: rewrite it!
+    public function autocompleteAction()
+    {
+    	$select = $this->_rubric->select();
+    	$term = str_replace('*', '%', $this->getRequest()->getParam('term'));
+    	$select->where('name like (?)', $term  . '%')
+               ->order('name');
+    	$res = $this->_rubric->fetchAll($select)->toArray();
+    	foreach ($res as $i=>$row){
+    		$res2[$i]['value'] = $row['name'];
+    		$res2[$i]['id'] = $row['id'];
+    	}
+    	echo Zend_Json::encode($res2);exit;
+    }
 }

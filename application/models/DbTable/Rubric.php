@@ -70,12 +70,12 @@ class Application_Model_DbTable_Rubric extends Application_Model_ApplicationTabl
     	return $rubric->findParentRow('Application_Model_DbTable_Rubric','AlternativeRubric');
     }
     
-	public function getParentRubric($rubric)
+    public function getParentRubric($rubric)
     {
     	return $rubric->findParentRow('Application_Model_DbTable_Rubric','ParentRubric');
     }
     
-	public function getThesaurus($rubric)
+    public function getThesaurus($rubric)
     {
     	return $rubric->findParentRow('Application_Model_DbTable_Thesaurus');
     }

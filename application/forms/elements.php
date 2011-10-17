@@ -15,13 +15,16 @@ class Application_Form_Elements
             'search' => 'Поиск', 
             'add'    => 'Добавить',
             'update' => 'Редактировать',
-            'delete' => 'Удалить'
+            'delete' => 'Удалить',
+            'index'  => 'Новый'
         );
         
         foreach ($buttons as $action => $label){
-            $elem = new Zend_Form_Element_Submit($label, array('disableLoadDefaultDecorators' => true));
+            $elem = new Zend_Form_Element_Submit($action, 
+                    array('disableLoadDefaultDecorators' => true));
             $elem->setAttrib('formaction', "/$name/$action")
-                    ->setDecorators(array(array('ViewHelper', 'Form')));
+                 ->setDecorators(array(array('ViewHelper', 'Form')))
+                 ->setLabel($label);
             $elements[ $action . $sufix ] = $elem;
         }
 
@@ -57,6 +60,24 @@ class Application_Form_Elements
         
         return array($name=>$text, 'add' . $name . 'Btn'=>$add, 'remove' . $name . 'Btn'=>$remove);
     }
+    
+    public static function getAutocompleteElement($hidden_id, $visible_id, $name, $label)
+    {
+        $hidden = self::getHidden($hidden_id);
+        
+        $visible = new ZendX_JQuery_Form_Element_AutoComplete(
+            $visible_id,
+            array('JQueryParams' => array( 
+                'source' => "/$name/autocomplete/",
+                'select'=> new Zend_Json_Expr('function(event, ui){
+                    $("#'.$hidden_id.'").val(ui.item.id);
+                    '.$hidden_id.' = ui.item;}')
+            ))
+        );
+        $visible->setLabel($label);
+        
+        return array($hidden, $visible);
+    }
 
     /**
      * 
@@ -66,9 +87,9 @@ class Application_Form_Elements
      */
     public static function getFieldsetHeader($name)
     {
-    
         $db = Zend_Db_Table_Abstract::getDefaultAdapter();
         $header_types = $db->fetchAll($db->select()->from('header_type', array('id', 'name')));
+        
         $form = new ZendX_JQuery_Form();
         $form->setDecorators(array(
             'FormElements',
@@ -86,8 +107,6 @@ class Application_Form_Elements
         }
         
         $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
-      //$form->addElements(self::getFieldsetButtons($name . 'Set'));
-        
         return $form;
     }
 
@@ -126,7 +145,7 @@ class Application_Form_Elements
             'Fieldset'
         ));
         
-        $form->setLegend('Заглавия'); 
+        $form->setLegend('Ответственность'); 
         return $form;
     }
 
@@ -155,7 +174,6 @@ class Application_Form_Elements
             }
         }
         
-//        $form->setDisplayGroupDecorators(array('FormElements', 'Fieldset'));
         $form->addElements(self::getStandardButtons($controllerName));
         return $form;
     }

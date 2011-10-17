@@ -19,7 +19,7 @@ class Application_Form_Item extends ZendX_JQuery_Form
         
         //$this->getAttrib('id')
         $jqParams   = array('containerId' => 'itemForm', 'title' => 'поля');
-        $fieldsets  = array('header', 'edition');
+        $fieldsets  = array('header', 'edition', 'author');
         
         $tab1 = Application_Form_Elements::getTab($jqParams, $fieldsets, 'item');
        

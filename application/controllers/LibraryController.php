@@ -10,7 +10,7 @@ class LibraryController extends AppController
         $this->_library = new Application_Model_DbTable_Library();
         // after _forward() function don't rewrite $_form
         if(empty($this->view->library)) {
-        	$this->_form = new Application_Form_Library();
+        	$this->_form = new Application_Model_Forms_Library();
         }
     }
 
@@ -51,6 +51,7 @@ class LibraryController extends AppController
 
     public function searchAction()
     {
+        Zend_Debug::dump($this->_request->getParams());
         if($this->getRequest()->isPost()){
             // only columns defined in $_columns and not empty
             $search = $this->_getColumnsFromRequest();
@@ -73,7 +74,7 @@ class LibraryController extends AppController
     {
     	$select = $this->_library->select();
     	
-    	$select->where('name like (?)', $this->getRequest()->getParam('term') . '%')
+    	$select->where('name like (?)', str_replace('*', '%', $this->getRequest()->getParam('term')) . '%')
     		   ->order('name');
     	$res = $this->_library->fetchAll($select)->toArray();
     	foreach ($res as $i=>$row){

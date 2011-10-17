@@ -16,11 +16,15 @@ if(is_array($this->errors)) {
 }
 
 if(!empty($this->item)) {
-    $this->form->setDefaults($this->item->toArray());
-    $this->form->removeElement('addBtn');
-    $this->form->removeElement('searchBtn');
+    foreach($this->form->getSubForms() as $sform){
+        $sform->setDefaults($this->item->toArray());
+        $sform->removeElement('addBtn');
+        $sform->removeElement('searchBtn');
+    }
 } else {
-    $this->form->removeElement('deleteBtn');
-    $this->form->removeElement('updateBtn');
+    foreach($this->form->getSubForms() as $sform){
+        $sform->removeElement('deleteBtn');
+        $sform->removeElement('updateBtn');
+    }
 }
 echo $this->form->render();
