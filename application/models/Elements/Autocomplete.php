@@ -16,12 +16,12 @@ class Application_Model_Elements_Autocomplete
         $JQueryParams = array_merge($JQueryParams, $default);
 
         $hidden = Application_Model_Elements_Hidden::getElement($hidden_id);
-        
-        $visible = new ZendX_JQuery_Form_Element_AutoComplete(
-            $visible_id,
-            array('JQueryParams' => $JQueryParams,
-                'class' => 'library_complete')
-        );
+        $visible = new Zend_Form_Element_Text($visible_id);
+//        $visible = new ZendX_JQuery_Form_Element_AutoComplete(
+//            $visible_id,
+//            array('JQueryParams' => $JQueryParams,
+//                'class' => 'library_complete')
+//        );
         $visible->setLabel($label);
         
         return array($hidden, $visible);

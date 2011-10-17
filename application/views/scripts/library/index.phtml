@@ -1,19 +1,36 @@
 <script type="text/javascript">
 function clone_fieldset(item) {
-    fset = $(item).parents("fieldset").first();
-    rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
+    var fset = $(item).parents("fieldset").first();
+    var rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
     val = rep+1;
     $("fieldset[id^='fieldset-library']").each(function(){
-        id = $(this).attr("id");
+    	var id = $(this).attr("id");
         val = Math.max(val, parseInt(id.substring(id.indexOf("_")+1))+1);
     });
-    new_fset = fset.clone();
+    var new_fset = fset.clone();
     new_fset.find(":input").each(function(){
       $(this).attr("name", $(this).attr("name").replace('['+rep+']', '['+ val+']'));
     });
     new_fset.attr("id", new_fset.attr("id").replace('_'+rep, '_'+ val));
     fset.after(new_fset);
+    new_fset.find("input[id*='library_name']").each(function(){
+		$(this).autocomplete(autocopmlete_obj);
+	});
 }
+//<![CDATA[
+autocopmlete_obj = {
+	"source":"/library/autocomplete/",
+	"select":function(event, ui){
+		var fset = $(this).parents("fieldset").first();
+		var rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
+		$(this).parents('fieldset').first().find(":hidden[id$='library_id']").val(ui.item.id);
+		library_id[rep] = ui.item;
+}};
+$(document).ready(function() {
+	library_id = Array();
+	$("input[id$='library_name']").autocomplete(autocopmlete_obj);
+});
+//]]>
 </script>
 <?php 
 if(is_array($this->errors)) {
