@@ -70,5 +70,20 @@ class ThesaurusController extends AppController
         $this->view->errors = $this->_form->getErrors();
         $this->_forward('index');
     }
+    
+    //@todo: bad style: rewrite it!
+    public function autocompleteAction()
+    {
+    	$select = $this->_thesaurus->select();
+    	
+    	$select->where('name like (?)', $this->getRequest()->getParam('term') . '%')
+    		   ->order('name');
+    	$res = $this->_thesaurus->fetchAll($select)->toArray();
+    	foreach ($res as $i=>$row){
+    		$res2[$i]['value'] = $row['name'];
+    		$res2[$i]['id'] = $row['id'];
+    	}
+    	echo Zend_Json::encode($res2);exit;
+    }
 
 }
