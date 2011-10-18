@@ -1,7 +1,7 @@
 <?php
 class Application_Model_Elements_Library
 {
-    public static function getElements()
+    public static function getElements($names = array())
     {
         $elements = array(
             'id'        => 'Id',
@@ -12,11 +12,16 @@ class Application_Model_Elements_Library
             'library'   => 'Autocomplete',
         );
         
+        if(count($names)){
+            $elements = array_intersect_key($elements, array_flip($names));
+        }
+        
         $out = array();
         foreach ($elements as $id=>$name){
             $method = 'get'.$name;
-            if(method_exists('Application_Model_Elements_Library', $method))
-            $out[$id] = self::$method();
+            if(method_exists('Application_Model_Elements_Library', $method)){
+                $out[$id] = self::$method();
+            }
         }
         
         return $out;

@@ -1,36 +1,40 @@
 <script type="text/javascript">
+library_id = Array();
+fieldsets = Array();
+fieldsets.library = 0;
 function clone_fieldset(item) {
     var fset = $(item).parents("fieldset").first();
-    var rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
-    val = rep+1;
-    $("fieldset[id^='fieldset-library']").each(function(){
-    	var id = $(this).attr("id");
-        val = Math.max(val, parseInt(id.substring(id.indexOf("_")+1))+1);
+    var fsetNumber = fset.attr("id").substring(fset.attr("id").indexOf("_")+1);
+    var newFsetNumber = ++fieldsets.library;
+
+    var newFset = fset.clone();
+    // set new id's and form name
+    newFset.find(":input").each(function(){
+      $(this).attr("name", $(this).attr("name").replace('['+fsetNumber+']', '['+ newFsetNumber+']'));
     });
-    var new_fset = fset.clone();
-    new_fset.find(":input").each(function(){
-      $(this).attr("name", $(this).attr("name").replace('['+rep+']', '['+ val+']'));
-    });
-    new_fset.attr("id", new_fset.attr("id").replace('_'+rep, '_'+ val));
-    fset.after(new_fset);
-    new_fset.find("input[id*='library_name']").each(function(){
+    newFset.attr("id", newFset.attr("id").replace('_'+fsetNumber, '_'+ newFsetNumber));
+	// set autocomplete
+    newFset.find("input[id*='library_name']").each(function(){
 		$(this).autocomplete(autocopmlete_obj);
 	});
+	
+    fset.after(newFset);
 }
-//<![CDATA[
 autocopmlete_obj = {
 	"source":"/library/autocomplete/",
 	"select":function(event, ui){
 		var fset = $(this).parents("fieldset").first();
-		var rep = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
-		$(this).parents('fieldset').first().find(":hidden[id$='library_id']").val(ui.item.id);
-		library_id[rep] = ui.item;
+		var fsetNumber = parseInt(fset.attr("id").substring(fset.attr("id").indexOf("_")+1));
+		fset.find(":hidden[id$='library_id']").val(ui.item.id);
+// todo rewrite: this is for single autocomplete field in subform
+		library_id[fsetNumber] = ui.item;
 }};
-$(document).ready(function() {
-	library_id = Array();
+
+function setAutocomplete(){
 	$("input[id$='library_name']").autocomplete(autocopmlete_obj);
-});
-//]]>
+}
+$(document).ready(setAutocomplete());
+
 </script>
 <?php 
 if(is_array($this->errors)) {
